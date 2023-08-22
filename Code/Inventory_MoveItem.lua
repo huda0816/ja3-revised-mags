@@ -1,3 +1,12 @@
+function IsReload(ammo, weapon)
+    if IsMagReload(ammo, weapon) then return weapon and IsMagReloadTarget(ammo, weapon) end
+    return weapon and IsWeaponReloadTarget(ammo, weapon)
+  end
+
+function IsMagReload(ammo, mag)
+    return mag and IsMagReloadTarget(ammo, mag)
+end
+
 function MoveItem(args)
     local item = args.item
     local src_container = args.src_container
@@ -242,43 +251,83 @@ function MoveItem(args)
       return false
     end
     if is_reload then
-      local weapon_obj = FindWeaponReloadTarget(item_at_dest, item)
-      if not weapon_obj then
-        return "invalid reload target"
-      end
-      if Sync() then
-        return sync_err
-      end
-      local prev_loaded_ammo = weapon_obj:Reload(item)
-      if prev_loaded_ammo then
-        if prev_loaded_ammo.Amount == 0 then
-          DoneObject(prev_loaded_ammo)
-          prev_loaded_ammo = false
+        if not IsKindOf(item_at_dest, "Mag") then
+            local weapon_obj = FindWeaponReloadTarget(item_at_dest, item)
+            if not weapon_obj then
+              return "invalid reload target"
+            end
+            if Sync() then
+              return sync_err
+            end
+            local prev_loaded_ammo = weapon_obj:Reload(item)
+            if prev_loaded_ammo then
+              if prev_loaded_ammo.Amount == 0 then
+                DoneObject(prev_loaded_ammo)
+                prev_loaded_ammo = false
+              else
+                local squad_id = src_container and src_container.Squad or dest_container.Squad
+                if not squad_id then
+                  local squads = GetSquadsInSector(gv_CurrentSectorId)
+                  squad_id = squads[1] and squads[1].UniqueId
+                end
+                local prev_ammo_dest_container = GetSquadBagInventory(squad_id)
+                prev_ammo_dest_container:AddAndStackItem(prev_loaded_ammo)
+              end
+            end
+            if item.Amount == 0 and not IsKindOfClasses(item, "Mag") then
+              if src_container then
+                src_container:RemoveItem(src_container_slot_name, item, "no_update")
+              end
+              DoneObject(item)
+              item = false
+            else
+            end
+            ObjModified(src_container)
+            if dest_container ~= src_container then
+              ObjModified(dest_container)
+            end
+            MoveItem_UpdateUnitOutfit(src_container, dest_container, check_only)
+            InventoryUIRespawn()
+            return false
         else
-          local squad_id = src_container and src_container.Squad or dest_container.Squad
-          if not squad_id then
-            local squads = GetSquadsInSector(gv_CurrentSectorId)
-            squad_id = squads[1] and squads[1].UniqueId
-          end
-          local prev_ammo_dest_container = GetSquadBagInventory(squad_id)
-          prev_ammo_dest_container:AddAndStackItem(prev_loaded_ammo)
+            local mag_obj = FindMagReloadTarget(item_at_dest, item)
+            if not mag_obj then
+              return "invalid reload target"
+            end
+            if Sync() then
+              return sync_err
+            end
+            local prev_loaded_ammo = MagReload(mag_obj, item)
+            if prev_loaded_ammo then
+              if prev_loaded_ammo.Amount == 0 then
+                DoneObject(prev_loaded_ammo)
+                prev_loaded_ammo = false
+              else
+                local squad_id = src_container and src_container.Squad or dest_container.Squad
+                if not squad_id then
+                  local squads = GetSquadsInSector(gv_CurrentSectorId)
+                  squad_id = squads[1] and squads[1].UniqueId
+                end
+                local prev_ammo_dest_container = GetSquadBagInventory(squad_id)
+                prev_ammo_dest_container:AddAndStackItem(prev_loaded_ammo)
+              end
+            end
+            if item.Amount == 0 then
+              if src_container then
+                src_container:RemoveItem(src_container_slot_name, item, "no_update")
+              end
+              DoneObject(item)
+              item = false
+            else
+            end
+            ObjModified(src_container)
+            if dest_container ~= src_container then
+              ObjModified(dest_container)
+            end
+            MoveItem_UpdateUnitOutfit(src_container, dest_container, check_only)
+            InventoryUIRespawn()
+            return false
         end
-      end
-      if item.Amount == 0 and not IsKindOfClasses(item, "Mag") then
-        if src_container then
-          src_container:RemoveItem(src_container_slot_name, item, "no_update")
-        end
-        DoneObject(item)
-        item = false
-      else
-      end
-      ObjModified(src_container)
-      if dest_container ~= src_container then
-        ObjModified(dest_container)
-      end
-      MoveItem_UpdateUnitOutfit(src_container, dest_container, check_only)
-      InventoryUIRespawn()
-      return false
     end
     if is_refill then
       if Sync() then
