@@ -291,7 +291,7 @@ DefineClass.AK74MagazineExpanded = {
 	DisplayNamePlural = T(141099000049, --[[ModItemInventoryItemCompositeDef AK74MagazineExpanded DisplayNamePlural]] "AK74 Expanded Magazines"),
 	Description = T(613116081450, --[[ModItemInventoryItemCompositeDef AK74MagazineExpanded Description]] "Expanded AK 74 Magazine for 5.45 round"),
 	AdditionalHint = T(702221910455, --[[ModItemInventoryItemCompositeDef AK74MagazineExpanded AdditionalHint]] "5.45mm"),
-	Platform = "AK545",
+	Platform = "AK762",
 	MagazineSize = 60,
 	Caliber = "762WP",
 }
@@ -309,7 +309,7 @@ DefineClass.AK74Magazine = {
 	DisplayNamePlural = T(101786234530, --[[ModItemInventoryItemCompositeDef AK74Magazine DisplayNamePlural]] "AK74 Magazines"),
 	Description = T(684862329970, --[[ModItemInventoryItemCompositeDef AK74Magazine Description]] "Standard AK 74 Magazine for 5.45 round"),
 	AdditionalHint = T(151151449042, --[[ModItemInventoryItemCompositeDef AK74Magazine AdditionalHint]] "5.45mm"),
-	Platform = "AK545",
+	Platform = "AK762",
 	Caliber = "762WP",
 }
 

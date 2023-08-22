@@ -26,6 +26,13 @@ FirearmProperties.properties.Platform = {
   } end, 
 }
 
+function OnMsg.UnitStanceChanged(unit)
+    local dbItem = PlaceInventoryItem("AK47Magazine")
+    unit:AddItem("Inventory", dbItem)
+    print(unit:GetActiveWeapons().Platform)
+end
+
+
 function SetWeaponPlatform()
     HiPower.Platform = "HiPower"
     Bereta92.Platform = "Beretta"
@@ -56,13 +63,4 @@ function SetWeaponPlatform()
     HK21.Platform = "HK21"
     FNMinimi.Platform = "SAW"
 end
-
 SetWeaponPlatform()
-
-
-
-function OnMsg.UnitStanceChanged(unit)
-    local weapon1, weapon2 = unit:GetActiveWeapons()
-    print(weapon1.Platform)
-end
-

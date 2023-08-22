@@ -105,3 +105,22 @@ function FindWeaponReloadTarget(item, ammo)
     ObjModified(self)
     return prev_ammo, not suspend_fx, change
   end
+
+  function GetInventoryItemDragDropFXActor(item)
+    if IsKindOf(item, "Ammo") or IsKindOf(item, "Mag") then
+      return item.Caliber
+    end
+    if IsKindOf(item, "Armor") then
+      if item.Slot == "Head" then
+        return "ArmorHelmet"
+      elseif item.PenetrationClass <= 2 then
+        return "ArmorLight"
+      else
+        return "ArmorHeavy"
+      end
+    end
+    if InventoryItemDefs[item.class].group == "Magazines" then
+      return "Magazines"
+    end
+    return item.class
+  end

@@ -1,3 +1,4 @@
+UndefineClass("Mag")
 DefineClass.Mag = {
     __parents = {
       "InventoryItem"
