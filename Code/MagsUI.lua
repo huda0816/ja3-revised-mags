@@ -28,12 +28,23 @@ function XInventoryItem:OnContextUpdate(item, ...)
     if IsKindOfClasses(item, "Armor", "Firearm", "HeavyWeapon", "MeleeWeapon", "ToolItem", "Medicine") and not IsKindOf(item, "InventoryStack") then
         self.idTopRightText:SetText(item:GetConditionText() or "")
     end
-    if IsKindOfClasses(item, "Mag") and not IsKindOf(item, "InventoryStack") then
+    if IsKindOf(item, "Mag") then
         local colorStyle = 'AmmoBasicColor'
         if item.ammo and item.ammo.colorStyle and item.ammo.colorStyle ~= 'AmmoBasicColor' then
             colorStyle  = item.ammo.colorStyle
         end
-        local text = '<color ' .. colorStyle .. '>' .. item.Amount or 0 .. '</color>'
+        local amount
+        if item.ammo then amount = item.ammo.Amount 
+        else amount = 0 end
+        local text = '<color ' .. colorStyle .. '>' .. amount .. '</color>'
+        self.idTopRightText:SetText(text)
+    end
+    if IsKindOf(item, "Ammo") and item.IconText then
+        local colorStyle = 'AmmoBasicColor'
+        if item.ammo and item.ammo.colorStyle and item.ammo.colorStyle ~= 'AmmoBasicColor' then
+            colorStyle  = item.ammo.colorStyle
+        end
+        local text = '<color ' .. colorStyle .. '>' .. item.IconText or item.Caliber .. '</color>'
         self.idTopRightText:SetText(text)
     end
     local txt = item:GetItemStatusUI()

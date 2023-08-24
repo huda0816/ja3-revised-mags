@@ -75,8 +75,8 @@ function FindWeaponReloadTarget(item, ammo)
         end
     elseif IsKindOfClasses(ammo, "Mag") then
         self.ammo = ammo.ammo
-        if(self.ammo) then self.ammo.Amount = ammo.Amount end
-        ammo.Amount = prev_ammoAmount
+        if(self.ammo) then self.ammo.Amount = ammo.ammo.Amount end
+        ammo.ammo.Amount = prev_ammoAmount
         ammo.ammo = prev_ammo
         self:RemoveModifiers("ammo")
         if(self.ammo) then
@@ -142,7 +142,10 @@ function FindWeaponReloadTarget(item, ammo)
       return false
     end
     local anyAmmo = 0 < #ammoForWeapon
-    local fullMag = mag.Amount == mag.MagazineSize
+    local fullMag = false
+    if not mag.ammo then fullMag = false
+    elseif mag.ammo.Amount == mag.MagazineSize then fullMag = true end
+
     if fullMag then
       if not anyAmmo then
         return false, AttackDisableReasons.FullClip
@@ -156,8 +159,7 @@ function FindWeaponReloadTarget(item, ammo)
   end
 
   function GetReloadAP(weapon, ammo)
-    print(RevisedMagConfigValues.NonMagReloadAP)
-    if(ammo and IsKindOf(ammo, "Mag")) then
+    if IsKindOf(ammo, "Mag") then
       return ammo.ReloadAP or RevisedMagConfigValues.MagBaseReloadAP
     end
     return RevisedMagConfigValues.NonMagReloadAP
@@ -165,26 +167,25 @@ function FindWeaponReloadTarget(item, ammo)
   
   function MagReload(mag, ammo, suspend_fx, delayed_fx)
     local prev_ammo = mag.ammo
-    prev_ammo.Amount = mag.Amount
-    local prev_id = mag.ammo and mag.ammo.class
+    if (mag.ammo) then prev_ammo.Amount = mag.ammo.Amount end
+    local prev_id
     local add = 0
     local change
     if mag.ammo and prev_id == ammo.class then
-      add = Max(0, Min(ammo.Amount, mag.MagazineSize - mag.Amount))
-      mag.Amount = mag.Amount + add
+      prev_id = mag.ammo and mag.ammo.class
+      add = Max(0, Min(ammo.Amount, mag.MagazineSize - mag.ammo.Amount))
+      mag.ammo.Amount = mag.ammo.Amount + add
       ammo.Amount = ammo.Amount - add
       change = 0 < add
       ObjModified(mag)
       return false, false, change
     else
       change = true
-      if ammo and 0 < ammo.Amount then
-        add = Min(ammo.Amount, mag.MagazineSize)
-        local item = PlaceInventoryItem(ammo.class)
-        ammo.Amount = ammo.Amount - add
-        mag.ammo = item
-        mag.Amount = add
-      end
+      add = Min(ammo.Amount, mag.MagazineSize)
+      local item = PlaceInventoryItem(ammo.class)
+      mag.ammo = item
+      ammo.Amount = ammo.Amount - add
+      mag.ammo.Amount = add
     end
     if not suspend_fx then
       CreateGameTimeThread(function(obj, delayed_fx)
@@ -206,4 +207,92 @@ function FindWeaponReloadTarget(item, ammo)
     return prev_ammo, not suspend_fx, change
   end
   function OnUnloadMag()
+  end
+
+  function GetAPCostAndUnit(item, src_container, src_container_slot_name, dest_container, dest_container_slot_name, item_at_dest, is_reload)
+    if not is_reload and not dest_container:CheckClass(item, dest_container_slot_name) then
+      return 0, GetInventoryUnit()
+    end
+    local ap = 0
+    local unit = false
+    local action_name = false
+    local costs = const["Action Point Costs"]
+    local are_diff_containers = src_container ~= dest_container
+    local is_src_bag = IsKindOf(src_container, "SquadBag")
+    local is_dest_bag = IsKindOf(dest_container, "SquadBag")
+    local is_src_unit = IsKindOfClasses(src_container, "Unit", "UnitData")
+    local is_dest_unit = IsKindOfClasses(dest_container, "Unit", "UnitData")
+    local is_src_dead = is_src_unit and src_container:IsDead()
+    local is_dest_dead = is_dest_unit and dest_container:IsDead()
+    local between_bag_and_unit = is_src_bag and is_dest_unit and not is_src_dead or is_dest_bag and is_src_unit and not is_src_dead
+    local is_refill, is_combine
+    is_refill = IsMedicineRefill(item, item_at_dest)
+    is_combine = not is_dest_dead and not IsKindOf(dest_container, "ItemContainer") and InventoryIsCombineTarget(item, item_at_dest)
+    if are_diff_containers and is_dest_bag and (not is_src_unit or is_src_dead) then
+      ap = costs.PickItem
+      unit = GetInventoryUnit()
+      action_name = T(273687388621, "Put in squad supplies")
+    end
+    if are_diff_containers and not between_bag_and_unit then
+      if (not is_src_unit or is_src_dead) and is_dest_unit and not is_dest_dead then
+        ap = costs.PickItem
+        unit = dest_container
+        action_name = T(265622314229, "Put in backpack")
+      elseif is_src_unit and is_dest_unit and not is_src_dead and not is_dest_dead and not IsKindOf(item, "SquadBagItem") then
+        ap = costs.GiveItem
+        unit = src_container
+        action_name = T({
+          386181237071,
+          "Give to <merc>",
+          merc = dest_container.Nick
+        })
+      end
+    end
+    if is_refill then
+      return 0, unit or GetInventoryUnit(), T(479821153570, "Refill")
+    end
+    if is_combine then
+      return 0, unit or GetInventoryUnit(), T(426883432738, "Combine")
+    end
+    if is_reload then
+      local dest_unit = dest_container
+      if IsKindOf(dest_unit, "UnitData") then
+        dest_unit = g_Units[dest_unit.session_id]
+      end
+      local inv_unit = GetInventoryUnit()
+      unit = IsKindOf(dest_unit, "Unit") and not dest_unit:IsDead() and dest_unit or inv_unit
+      local action = CombatActions.Reload
+      local pos = dest_container:GetItemPackedPos(item_at_dest)
+      ap = ap + action:GetAPCost(unit, {
+        weapon = item_at_dest.class,
+        item = item,
+        pos = pos
+      }) or 0
+      action_name = T(160472488023, "Reload")
+    elseif IsEquipSlot(dest_container_slot_name) and (not (src_container == dest_container and IsEquipSlot(src_container_slot_name)) or src_container_slot_name ~= dest_container_slot_name) then
+      ap = ap + item:GetEquipCost()
+      unit = dest_container
+      action_name = T(622693158009, "Equip")
+    end
+    if not unit and is_src_unit and IsKindOf(dest_container, "LocalDropContainer") then
+      unit = src_container
+      action_name = T(778324934848, "Drop")
+    end
+    unit = unit or GetInventoryUnit()
+    return ap, unit, action_name
+  end
+
+  function UnloadWeapon(item, squadBag)
+    local ammo = item.ammo
+    item.ammo = false
+    if IsKindOf(item, "Mag") then
+        ammo.Amount =  item.ammo.Amount
+        item.ammo.Amount = 0
+      end
+    if ammo and ammo.Amount > 0 then
+      squadBag:AddAndStackItem(ammo)
+    end
+    if IsKindOf(item, "Firearm") then
+      item:OnUnloadWeapon()
+    end
   end

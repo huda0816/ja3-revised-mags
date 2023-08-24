@@ -1,4 +1,5 @@
 function IsReload(ammo, weapon)
+    if IsKindOf(weapon,"Mag") and IsKindOf(ammo,"Mag") then return false end
     if IsMagReload(ammo, weapon) then return weapon and IsMagReloadTarget(ammo, weapon) end
     return weapon and IsWeaponReloadTarget(ammo, weapon)
   end
@@ -117,7 +118,7 @@ function MoveItem(args)
       end
     end
     local is_local_changes = exec_locally and not sync_call
-    local item_is_stack = IsKindOf(item, "InventoryStack")
+    local item_is_stack = IsKindOfClasses(item, "InventoryStack")
     local partial_stack_merge = false
     if not is_reload and not is_combine and not is_refill and not dest_container:CheckClass(item, dest_container_slot_name) then
       return "Can't add item to container, wrong class"

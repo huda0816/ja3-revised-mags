@@ -4,10 +4,6 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/AddPlatformToWeapons.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "CombatActions",
-	'CodeFileName', "Code/CombatActions.lua",
-}),
-PlaceObj('ModItemCode', {
 	'name', "Config",
 	'CodeFileName', "Code/Config.lua",
 }),
@@ -42,6 +38,10 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "ModOptions",
 	'CodeFileName', "Code/ModOptions.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "Actions",
+	'CodeFileName', "Code/Actions.lua",
 }),
 PlaceObj('ModItemOptionChoice', {
 	'name', "RevisedNonMagReloadAP",

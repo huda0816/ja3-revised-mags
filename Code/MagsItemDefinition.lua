@@ -1,7 +1,7 @@
 UndefineClass("Mag")
 DefineClass.Mag = {
     __parents = {
-      "InventoryItem"
+      "InventoryStack"
     },
     properties = {
       {
@@ -46,13 +46,6 @@ DefineClass.Mag = {
         modifiable = true
       },
       {
-        id = "Amount",
-        category = "Caliber",
-        template = true,
-        default = 0,
-        editor = "number"
-      },
-      {
         category = "Caliber",
         id = "Caliber",
         editor = "combo",
@@ -73,6 +66,6 @@ DefineClass.Mag = {
         end
       },
       ammo = false,
-      MaxStacks=2
     },
+    MaxStacks=2
 }

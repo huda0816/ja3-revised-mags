@@ -1,4 +1,4 @@
-FirearmProperties.properties.Platform = { 
+--[[FirearmProperties.properties.Platform = { 
     category = "Caliber", 
     id = "Platform", 
     editor = "combo", 
@@ -24,7 +24,7 @@ FirearmProperties.properties.Platform = {
     "Glock",
     "DesertEagle"
   } end, 
-}
+}]]--
 
 
 function SetWeaponPlatform()
@@ -57,5 +57,7 @@ function SetWeaponPlatform()
     HK21.Platform = "HK21"
     FNMinimi.Platform = "SAW"
 end
-
 SetWeaponPlatform()
+
+
+ 
