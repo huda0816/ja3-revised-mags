@@ -30,12 +30,14 @@ function XInventoryItem:OnContextUpdate(item, ...)
     end
     if IsKindOf(item, "Mag") then
         local colorStyle = 'AmmoBasicColor'
-        if item.ammo and item.ammo.colorStyle and item.ammo.colorStyle ~= 'AmmoBasicColor' then
-            colorStyle  = item.ammo.colorStyle
+        local amount = 0
+        if #item.ammo>0 then
+            if item.ammo[1].colorStyle then
+                colorStyle  = item.ammo[1].colorStyle
+            end
+            amount = item.ammo[1].Amount
         end
-        local amount
-        if item.ammo then amount = item.ammo.Amount 
-        else amount = 0 end
+        
         local text = '<color ' .. colorStyle .. '>' .. amount .. '</color>'
         self.idTopRightText:SetText(text)
     end

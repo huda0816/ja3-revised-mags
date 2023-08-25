@@ -1,7 +1,7 @@
 UndefineClass("Mag")
 DefineClass.Mag = {
     __parents = {
-      "InventoryStack"
+      "InventoryItem"
     },
     properties = {
       {
@@ -65,7 +65,32 @@ DefineClass.Mag = {
           }
         end
       },
-      ammo = false,
     },
+    ammo = {},
     MaxStacks=2
 }
+
+function FirearmBase:GetSpecialScrapItems()
+  local special_components = {}
+  if self.Magazine then
+    g_Units[self.owner]:AddItem("Inventory", PlaceInventoryItem(self.Magazine))
+  end
+  for _, component in sorted_pairs(self.components or empty_table) do
+    local comp = WeaponComponents[component]
+    if comp then
+      for _, costs in ipairs(comp.AdditionalCosts) do
+        local idx = table.find(special_components, "restype", costs.Type)
+        if idx then
+          special_components[idx].amount = (special_components[idx].amount or 0) + costs.Amount
+        else
+          table.insert(special_components, {
+            restype = costs.Type,
+            amount = costs.Amount
+          })
+        end
+      end
+    end
+  end
+  return special_components
+end
+

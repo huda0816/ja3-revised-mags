@@ -1,5 +1,9 @@
 return {
 PlaceObj('ModItemCode', {
+	'name', "Actions",
+	'CodeFileName', "Code/Actions.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "AddPlatformToWeapons",
 	'CodeFileName', "Code/AddPlatformToWeapons.lua",
 }),
@@ -10,6 +14,10 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "HighlightWeaponsForMags",
 	'CodeFileName', "Code/HighlightWeaponsForMags.lua",
+}),
+PlaceObj('ModItemCode', {
+	'name', "InventoryUI",
+	'CodeFileName', "Code/InventoryUI.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "Inventory_MoveItem",
@@ -40,8 +48,20 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/ModOptions.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "Actions",
-	'CodeFileName', "Code/Actions.lua",
+	'name', "Stacking",
+	'CodeFileName', "Code/Stacking.lua",
+}),
+PlaceObj('ModItemOptionChoice', {
+	'name', "RevisedMagBaseReloadAP",
+	'DisplayName', "Mag Reload AP",
+	'Help', "AP required to reload WITH mag",
+	'DefaultValue', "3",
+	'ChoiceList', {
+		"2",
+		"3",
+		"4",
+		"5",
+	},
 }),
 PlaceObj('ModItemOptionChoice', {
 	'name', "RevisedNonMagReloadAP",
@@ -55,18 +75,6 @@ PlaceObj('ModItemOptionChoice', {
 		"8",
 		"9",
 		"10",
-	},
-}),
-PlaceObj('ModItemOptionChoice', {
-	'name', "RevisedRevisedMagBaseReloadAP",
-	'DisplayName', "Mag Reload AP",
-	'Help', "AP required to reload WITH mag",
-	'DefaultValue', "3",
-	'ChoiceList', {
-		"2",
-		"3",
-		"4",
-		"5",
 	},
 }),
 }

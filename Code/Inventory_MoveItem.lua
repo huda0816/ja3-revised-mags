@@ -275,7 +275,7 @@ function MoveItem(args)
                 prev_ammo_dest_container:AddAndStackItem(prev_loaded_ammo)
               end
             end
-            if item.Amount == 0 and not IsKindOfClasses(item, "Mag") then
+            if not IsKindOf(item, "Mag") and item.Amount == 0 then
               if src_container then
                 src_container:RemoveItem(src_container_slot_name, item, "no_update")
               end
@@ -312,14 +312,6 @@ function MoveItem(args)
                 local prev_ammo_dest_container = GetSquadBagInventory(squad_id)
                 prev_ammo_dest_container:AddAndStackItem(prev_loaded_ammo)
               end
-            end
-            if item.Amount == 0 then
-              if src_container then
-                src_container:RemoveItem(src_container_slot_name, item, "no_update")
-              end
-              DoneObject(item)
-              item = false
-            else
             end
             ObjModified(src_container)
             if dest_container ~= src_container then

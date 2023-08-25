@@ -56,6 +56,37 @@ function SetWeaponPlatform()
     RPK74.Platform = "AK762"
     HK21.Platform = "HK21"
     FNMinimi.Platform = "SAW"
+
+    --------------------------
+
+    HiPower.Magazine = "BHPMagazine"
+    Bereta92.Magazine = "BerettaMagazine"
+    Glock18.Magazine = "GlockMgazine"
+    DesertEagle.Magazine = "DesertEagleMagazine"
+
+    UZI.Magazine = "UZIMagazine"
+    MP5.Magazine = "MP5MagazineNormal"
+    MP5K.Magazine = "MP5MagazineNormal"
+    MP40.Magazine = "MP40Magazine"
+    AKSU.Magazine = "AK74Magazine"
+
+    AK74.Magazine = "AK74Magazine"
+    AK47.Magazine = "AK47Magazine"
+    FAMAS.Magazine = "FAMASMagazine"
+    AR15.Magazine = "AR15Magazine"
+    M16A2.Magazine = "STANAGMagazine"
+    AUG.Magazine = "AUGMagazine"
+    FNFAL.Magazine = "FNFALMagazine"
+    Galil.Magazine = "GalilMagazine"
+    G36.Magazine = "STANAGMagazine"
+
+    M14SAW.Magazine = "M14Magazine"
+    M24Sniper.Magazine = "M14Magazine"
+    PSG1.Magazine = "M14Magazine"
+
+    RPK74.Magazine = "AK74MagazineExpanded"
+    HK21.Magazine = "HK21Magazine"
+    FNMinimi.Magazine = "FNMinimiMagazine"
 end
 SetWeaponPlatform()
 
