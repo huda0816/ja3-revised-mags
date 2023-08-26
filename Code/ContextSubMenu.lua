@@ -353,7 +353,6 @@ PlaceObj("XTemplate", {
           function(child, context, item, i, n, last) 
             child:SetContext(item) 
             if IsKindOf(item.ammo, "Mag") then 
-                print('item',item) 
                 local count = item.ammo.ammo.Amount 
                 child:SetText(T({ 
                   433225540474, 
@@ -393,20 +392,30 @@ PlaceObj("XTemplate", {
               local container = context.context 
               local unit = context.unit 
               local pos = container:GetItemPackedPos(weapon) 
-              local mode = "ammo" 
-              if IsKindOf(self.context.ammo, "Mag") then mode = "Mag" end 
-              local actionArgs = { 
-                target = ammo.class, 
-                pos = pos, 
-                item_id = weapon.id, 
-                mode = mode 
-              } 
+              local actionArgs
+              if IsKindOf(ammo, "Mag") then 
+                actionArgs = { 
+                    target = ammo.ammo.class, 
+                    pos = pos, 
+                    item_id = weapon.id, 
+                    mode = "MagMode",
+                    ammo_id = ammo.id
+                } 
+              else
+                actionArgs = { 
+                    target = ammo.class, 
+                    pos = pos, 
+                    item_id = weapon.id, 
+                    mode = "AmmoMode",
+                    ammo_id=false,
+                } 
+              end
               local ap = CombatActions.Reload:GetAPCost(unit, actionArgs) 
               ap = InventoryIsCombatMode(unit) and ap or 0 
               if IsKindOf(unit, "Unit") then 
                 NetStartCombatAction("Reload", unit, ap, actionArgs) 
               elseif IsKindOf(unit, "UnitData") then 
-                NetSyncEvent("InvetoryAction_RealoadWeapon", unit.session_id, ap, actionArgs, ammo.class) 
+                NetSyncEvent("InvetoryAction_RealoadWeapon", unit.session_id, ap, actionArgs, actionArgs.target) 
               end 
               context.slot_wnd:ClosePopup() 
               ObjModified(unit) 

@@ -12,6 +12,10 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/Config.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "ContextSubMenu",
+	'CodeFileName', "Code/ContextSubMenu.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "HighlightWeaponsForMags",
 	'CodeFileName', "Code/HighlightWeaponsForMags.lua",
 }),
@@ -44,8 +48,8 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/ModOptions.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "ContextSubMenu",
-	'CodeFileName', "Code/ContextSubMenu.lua",
+	'name', "Unit",
+	'CodeFileName', "Code/Unit.lua",
 }),
 PlaceObj('ModItemOptionChoice', {
 	'name', "RevisedMagBaseReloadAP",

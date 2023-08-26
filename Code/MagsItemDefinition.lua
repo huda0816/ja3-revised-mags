@@ -66,8 +66,7 @@ DefineClass.Mag = {
         end
       },
       ammo = false,
-    },
-    MaxStacks=2
+    }
 }
 
 function FirearmBase:GetSpecialScrapItems()
