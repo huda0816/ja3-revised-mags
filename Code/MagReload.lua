@@ -71,11 +71,10 @@ function Firearm:Reload(ammo, suspend_fx, delayed_fx)
           end
       end
   elseif IsKindOfClasses(ammo, "Mag") then
-      local prev_mag_ammo 
-      if #ammo.ammo>0 then prev_mag_ammo = ammo.ammo[1] end
+      local prev_mag_ammo = ammo.ammo
       self.ammo = prev_mag_ammo
-      ammo.ammo = {}
-      if prev_ammo then table.insert(ammo.ammo, prev_ammo) end
+      ammo.ammo = prev_ammo
+      
       self:RemoveModifiers("ammo")
 
       if(self.ammo) then
@@ -306,28 +305,3 @@ function UnloadWeapon(item, squadBag)
   end
 end
 
-function MergeMags(dest_mag, drag_mag)
-  if dest_mag == drag_mag then return end
-  if dest_mag.ammo then
-      if not drag_mag.ammo then drag_mag.ammo = {false} end
-      table.insert(dest_mag.ammo, drag_mag.ammo[1])
-  else
-      dest_mag.ammo={false}
-      table.insert(dest_mag.ammo, drag_mag.ammo[1])
-  end
-  while #dest_mag.ammo > (dest_mag.Amount+1) do
-    table.remove(dest_mag.ammo)
-  end
-  return true
-end
-
-function UnstackMag(mag)
-  if mag.ammo then
-    if #mag.ammo > 1 then
-      local  newItem = PlaceInventoryItem(mag.class)
-      newItem.Amount = 1
-      newItem.ammo = mag.ammo
-      return newItem
-    end
-  end
-end

@@ -32,10 +32,10 @@ function XInventoryItem:OnContextUpdate(item, ...)
         local colorStyle = 'AmmoBasicColor'
         local amount = 0
         if not item.ammo == false then
-            if item.ammo[1].colorStyle then
-                colorStyle  = item.ammo[1].colorStyle
+            if item.ammo.colorStyle then
+                colorStyle  = item.ammo.colorStyle
             end
-            amount = item.ammo[1].Amount
+            amount = item.ammo.Amount
         end
         
         local text = '<color ' .. colorStyle .. '>' .. amount .. '</color>'
@@ -58,3 +58,43 @@ function XInventoryItem:OnContextUpdate(item, ...)
         self.idItemImg.idItemSubImg:SetImage(item.SubIcon or "")
     end
 end
+
+ 
+function GetReloadOptionsForWeapon(weapon, unit, skipSubWeapon) 
+    if not unit and #Selection == 0 then 
+      return {} 
+    end 
+    unit = unit or Selection[1] 
+    local weapons = {} 
+    if not skipSubWeapon and IsKindOf(weapon, "Firearm") then 
+      for slot, item in sorted_pairs(weapon.subweapons) do 
+        if IsKindOf(item, "Firearm") then 
+          weapons[#weapons + 1] = item 
+        end 
+      end 
+    end 
+    weapons[#weapons + 1] = weapon 
+    local options = {} 
+    local errors = {} 
+    for _, wpn in ipairs(weapons) do 
+      local availableAmmo = unit:GetAvailableAmmos(wpn, nil, "unique") 
+      local availableMags = unit:GetMagsForWeapon(wpn) 
+      local available, err = IsWeaponAvailableForReload(wpn, availableAmmo) 
+      local availableForMag, errMag = IsWeaponAvailableForReload(wpn, availableMags) 
+      if available then 
+        for i, ammo in ipairs(availableAmmo) do 
+          options[#options + 1] = {weapon = wpn, ammo = ammo} 
+        end 
+      else 
+        errors[wpn] = err 
+      end 
+      if availableForMag then 
+        for i, mag in ipairs(availableMags) do 
+          options[#options + 1] = {weapon = wpn, ammo = mag} 
+        end 
+      else 
+        errors[wpn] = err 
+      end 
+    end 
+    return options, errors 
+  end 
