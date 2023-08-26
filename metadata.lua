@@ -5,7 +5,7 @@ return PlaceObj('ModDef', {
 	'last_changes', "typo",
 	'id', "URkxyfE",
 	'author', "Ablomis",
-	'version', 312,
+	'version', 436,
 	'lua_revision', 233360,
 	'saved_with_revision', 340446,
 	'code', {
@@ -24,8 +24,8 @@ return PlaceObj('ModDef', {
 		"Code/Stacking.lua",
 	},
 	'has_options', true,
-	'saved', 1692937590,
-	'code_hash', 5901572535161872933,
+	'saved', 1693027171,
+	'code_hash', -7892807328848735356,
 	'screenshot1', "Mod/URkxyfE/Images/20230822083437_1.jpg",
 	'steam_id', "3023941769",
 })

@@ -223,7 +223,7 @@ DefineClass.BHPMagazine = {
 	Description = T(962669087200, --[[ModItemInventoryItemCompositeDef BHPMagazine Description]] "Standard HiPower magazine"),
 	AdditionalHint = T(975799067317, --[[ModItemInventoryItemCompositeDef BHPMagazine AdditionalHint]] "9mm"),
 	Platform = "HiPower",
-	MagazineSize = 10,
+	MagazineSize = 15,
 	Caliber = "9mm",
 }
 

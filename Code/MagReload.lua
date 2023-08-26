@@ -71,9 +71,11 @@ function Firearm:Reload(ammo, suspend_fx, delayed_fx)
           end
       end
   elseif IsKindOfClasses(ammo, "Mag") then
-      local prev_mag_ammo = ammo.ammo[1]
+      local prev_mag_ammo 
+      if #ammo.ammo>0 then prev_mag_ammo = ammo.ammo[1] end
       self.ammo = prev_mag_ammo
-      ammo.ammo[1] = prev_ammo
+      ammo.ammo = {}
+      if prev_ammo then table.insert(ammo.ammo, prev_ammo) end
       self:RemoveModifiers("ammo")
 
       if(self.ammo) then
@@ -141,8 +143,8 @@ function IsMagAvailableForReload(mag, ammoForWeapon)
   end
   local anyAmmo = 0 < #ammoForWeapon
   local fullMag = false
-  if not next(mag.ammo) == nil then fullMag = false
-  elseif mag.ammo[1].Amount == mag.MagazineSize then fullMag = true end
+  if not mag.ammo then fullMag = false
+  elseif mag.ammo.Amount == mag.MagazineSize then fullMag = true end
 
   if fullMag then
     if not anyAmmo then
@@ -164,13 +166,13 @@ function GetReloadAP(weapon, ammo)
 end
 
 function MagReload(mag, ammo, suspend_fx, delayed_fx)
-  local prev_ammo = mag.ammo[1]
+  local prev_ammo = mag.ammo
   local add = 0
   local change
-  if #mag.ammo>0 then
-    if mag.ammo[1].class == ammo.class then
-        add = Max(0, Min(ammo.ammo[1].Amount, mag.MagazineSize - mag.ammo[1].Amount))
-        mag.ammo[1].Amount = mag.ammo[1].Amount + add
+  if prev_ammo then
+    if mag.ammo.class == ammo.class then
+        add = Max(0, Min(ammo.ammo.Amount, mag.MagazineSize - mag.ammo[1].Amount))
+        mag.ammo.Amount = mag.ammo.Amount + add
         ammo.Amount = ammo.Amount - add
         change = 0 < add
         ObjModified(mag)
@@ -180,17 +182,16 @@ function MagReload(mag, ammo, suspend_fx, delayed_fx)
       add = Min(ammo.Amount, mag.MagazineSize)
       
       local item = PlaceInventoryItem(ammo.class)
-      mag.ammo[1] = item
-      mag.ammo[1].Amount = add
+      mag.ammo = item
+      mag.ammo.Amount = add
   
       ammo.Amount = ammo.Amount - add
     end
   else
     add = Min(ammo.Amount, mag.MagazineSize)
-
     local item = PlaceInventoryItem(ammo.class)
-    table.insert(mag.ammo, item)
-    mag.ammo[1].Amount = add
+    item.Amount = add
+    mag.ammo=item
 
     ammo.Amount = ammo.Amount - add
     return false, false, change
@@ -305,45 +306,28 @@ function UnloadWeapon(item, squadBag)
   end
 end
 
-function GetAvailableAmmoForMag(mag, ammo_type, unique)
-  if not IsKindOfClasses(mag, "Mag") then
-    return empty_table
+function MergeMags(dest_mag, drag_mag)
+  if dest_mag == drag_mag then return end
+  if dest_mag.ammo then
+      if not drag_mag.ammo then drag_mag.ammo = {false} end
+      table.insert(dest_mag.ammo, drag_mag.ammo[1])
+  else
+      dest_mag.ammo={false}
+      table.insert(dest_mag.ammo, drag_mag.ammo[1])
   end
-  local ammo_class = IsKindOfClasses(weapon, "HeavyWeapon", "FlareGun") and "Ordnance" or "Ammo"
-  local types = {}
-  local containers = {}
-  local slots = {}
-  local add = function(ammo, container, slot)
-    table.insert(types, ammo)
-    table.insert(containers, container)
-    table.insert(slots, slot)
+  while #dest_mag.ammo > (dest_mag.Amount+1) do
+    table.remove(dest_mag.ammo)
   end
-  local slot_name = GetContainerInventorySlotName(self)
-  self:ForEachItemInSlot(slot_name, ammo_class, function(ammo, slot, left, top, mag, types)
-    if (not ammo_type or ammo.class == ammo_type) and ammo.Caliber == mag.Caliber then
-      if unique then
-        local found = table.find(types, "class", ammo.class)
-        if not found then
-          add(ammo, self, slot_name)
-        end
-      else
-        add(ammo, self, slot_name)
-      end
-    end
-  end, weapon, types)
-  local squad_id = self.Squad
-  local bag = GetSquadBag(squad_id)
-  for _, ammo in ipairs(bag or empty_table) do
-    if IsKindOf(ammo, ammo_class) and (not ammo_type or ammo.class == ammo_type) and ammo.Caliber == mag.Caliber then
-      if unique then
-        local found = table.find(types, "class", ammo.class)
-        if not found then
-          add(ammo, bag)
-        end
-      else
-        add(ammo, bag)
-      end
+  return true
+end
+
+function UnstackMag(mag)
+  if mag.ammo then
+    if #mag.ammo > 1 then
+      local  newItem = PlaceInventoryItem(mag.class)
+      newItem.Amount = 1
+      newItem.ammo = mag.ammo
+      return newItem
     end
   end
-  return types, containers, slots
 end

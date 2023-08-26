@@ -31,7 +31,7 @@ function XInventoryItem:OnContextUpdate(item, ...)
     if IsKindOf(item, "Mag") then
         local colorStyle = 'AmmoBasicColor'
         local amount = 0
-        if #item.ammo>0 then
+        if not item.ammo == false then
             if item.ammo[1].colorStyle then
                 colorStyle  = item.ammo[1].colorStyle
             end

@@ -65,8 +65,8 @@ DefineClass.Mag = {
           }
         end
       },
+      ammo = false,
     },
-    ammo = {},
     MaxStacks=2
 }
 
