@@ -70,6 +70,7 @@ function Firearm:Reload(ammo, suspend_fx, delayed_fx)
               self:AddModifier("ammo", mod.target_prop, mod.mod_mul, mod.mod_add)
           end
       end
+  elseif IsKindOfClasses(ammo, "Mag") then
       local prev_mag_ammo = ammo.ammo
       self.ammo = prev_mag_ammo
       ammo.ammo = prev_ammo

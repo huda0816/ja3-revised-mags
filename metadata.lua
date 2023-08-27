@@ -5,7 +5,7 @@ return PlaceObj('ModDef', {
 	'last_changes', "typo",
 	'id', "URkxyfE",
 	'author', "Ablomis",
-	'version', 531,
+	'version', 541,
 	'lua_revision', 233360,
 	'saved_with_revision', 340446,
 	'code', {
@@ -21,11 +21,12 @@ return PlaceObj('ModDef', {
 		"Code/MagsItems.lua",
 		"Code/MagsUI.lua",
 		"Code/ModOptions.lua",
+		"Code/UIWeaponDisplay.lua",
 		"Code/Unit.lua",
 	},
 	'has_options', true,
-	'saved', 1693093632,
-	'code_hash', -5970579499173463143,
+	'saved', 1693097237,
+	'code_hash', -8370928238523585428,
 	'screenshot1', "Mod/URkxyfE/Images/20230822083437_1.jpg",
 	'steam_id', "3023941769",
 })
