@@ -48,6 +48,10 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/ModOptions.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "UI",
+	'CodeFileName', "Code/UI.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "UIWeaponDisplay",
 	'CodeFileName', "Code/UIWeaponDisplay.lua",
 }),

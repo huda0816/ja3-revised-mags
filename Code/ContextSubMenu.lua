@@ -342,6 +342,7 @@ PlaceObj("XTemplate", {
           "ammo (reload action)", 
           "array", 
           function(parent, context) 
+            --print(context)
             local options = GetReloadOptionsForWeapon(context.item, context.context) 
             return context.action == "reload" and GetReloadOptionsForWeapon(context.item, context.context) or {} 
           end, 
@@ -391,7 +392,8 @@ PlaceObj("XTemplate", {
               local context = self:ResolveId("node"):GetContext() 
               local container = context.context 
               local unit = context.unit 
-              local pos = container:GetItemPackedPos(weapon) 
+              local pos 
+              if(container) then pos = container:GetItemPackedPos(weapon) end
               local actionArgs
               if IsKindOf(ammo, "Mag") then 
                 actionArgs = { 
