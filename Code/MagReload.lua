@@ -293,10 +293,6 @@ end
 function UnloadWeapon(item, squadBag)
   local ammo = item.ammo
   item.ammo = false
-  if IsKindOf(item, "Mag") then
-      ammo.Amount =  item.ammo.Amount
-      item.ammo.Amount = 0
-    end
   if ammo and ammo.Amount > 0 then
     squadBag:AddAndStackItem(ammo)
   end

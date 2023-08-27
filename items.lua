@@ -48,6 +48,10 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/ModOptions.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "InventoryContextMenu",
+	'CodeFileName', "Code/InventoryContextMenu.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "UI",
 	'CodeFileName', "Code/UI.lua",
 }),
