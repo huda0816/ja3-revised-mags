@@ -52,6 +52,7 @@ function SetWeaponPlatform()
     M14SAW.Platform = "M14"
     M24Sniper.Platform = "M14"
     PSG1.Platform = "M14"
+    DragunovSVD.Platform = "SVD"
 
     RPK74.Platform = "AK762"
     HK21.Platform = "HK21"
@@ -83,6 +84,7 @@ function SetWeaponPlatform()
     M14SAW.Magazine = "M14Magazine"
     M24Sniper.Magazine = "M14Magazine"
     PSG1.Magazine = "M14Magazine"
+    DragunovSVD.Magazine = "SVDMagazine"
 
     RPK74.Magazine = "AK74MagazineExpanded"
     HK21.Magazine = "HK21Magazine"

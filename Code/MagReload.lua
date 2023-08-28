@@ -83,6 +83,7 @@ function Firearm:Reload(ammo, suspend_fx, delayed_fx)
           end
       end
       ObjModified(self)
+      ObjModified(ammo)
       return false, false, change
   end
   if not suspend_fx then
@@ -180,19 +181,18 @@ function MagReload(mag, ammo, suspend_fx, delayed_fx)
       change = true
       add = Min(ammo.Amount, mag.MagazineSize)
       
-      local item = PlaceInventoryItem(ammo.class)
-      mag.ammo = item
+      mag.ammo = PlaceInventoryItem(ammo.class)
       mag.ammo.Amount = add
   
       ammo.Amount = ammo.Amount - add
     end
   else
     add = Min(ammo.Amount, mag.MagazineSize)
-    local item = PlaceInventoryItem(ammo.class)
-    item.Amount = add
-    mag.ammo=item
+    mag.ammo=PlaceInventoryItem(ammo.class)
+    mag.ammo.Amount = add
 
     ammo.Amount = ammo.Amount - add
+    ObjModified(mag)
     return false, false, change
   end
   if not suspend_fx then

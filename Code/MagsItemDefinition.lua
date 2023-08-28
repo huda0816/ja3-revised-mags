@@ -64,9 +64,9 @@ DefineClass.Mag = {
             "12gauge"
           }
         end
-      },
-      ammo = false,
-    }
+      }
+    },
+    ammo = false,
 }
 
 function FirearmBase:GetSpecialScrapItems()
@@ -93,3 +93,79 @@ function FirearmBase:GetSpecialScrapItems()
   return special_components
 end
 
+function Mag:__toluacode(indent, pstr, GetPropFunc)
+  return self:SaveToLuaCode(indent, pstr, GetPropFunc)
+end
+
+function Mag:SaveToLuaCode(indent, pStr, GetPropFunc, pos)
+  if not pStr then
+    local additional
+    if self.ammo then
+      local ammo_props = self.ammo:SavePropsToLuaCode(indent, GetPropFunc)
+      ammo_props = ammo_props or "nil"
+      additional = string.format([[
+
+	 'ammo',PlaceInventoryItem('%s', %s)]], self.ammo.class, ammo_props)
+    end
+    if next(self.subweapons) ~= nil then
+      additional = additional and string.format("%s,", additional)
+      additional = string.format([[
+%s
+	 'subweapons',{]], additional or "")
+      local additionalWeps = {}
+      for slot, item in sorted_pairs(self.subweapons) do
+        additionalWeps[#additionalWeps + 1] = string.format([[
+
+		['%s'] = %s]], slot, item:__toluacode("\t\t\t", nil, GetPropFunc))
+      end
+      additional = string.format("%s%s%s", additional, table.concat(additionalWeps, ", "), [[
+
+	},]])
+    end
+    local props = self:SavePropsToLuaCode(indent, GetPropFunc, pStr, additional)
+    props = props or "nil"
+    if pos then
+      return string.format("%d, PlaceInventoryItem('%s', %s)", pos, self.class, props)
+    else
+      return string.format("PlaceInventoryItem('%s', %s)", self.class, props)
+    end
+  else
+    local additional = pstr("", 1024)
+    if self.ammo then
+      additional:appendf([[
+
+	 'ammo',PlaceInventoryItem('%s', ]], self.ammo.class)
+      if not self.ammo:SavePropsToLuaCode(indent, GetPropFunc, additional) then
+        additional:append("nil")
+      end
+      additional:append("),")
+    end
+    if next(self.subweapons) ~= nil then
+      additional:append([[
+
+	 'subweapons',{]])
+      for slot, item in sorted_pairs(self.subweapons) do
+        additional:appendf([[
+
+		['%s'] = %s]], slot, item:__toluacode("\t\t\t", nil, GetPropFunc))
+      end
+      additional:append([[
+
+	},]])
+    end
+    if pos then
+      pStr:append(tostring(pos) .. ", ")
+      pStr:appendf("PlaceInventoryItem('%s', ", self.class)
+      if not self:SavePropsToLuaCode(indent, GetPropFunc, pStr, additional) then
+        pStr:append("nil")
+      end
+      return pStr:append(") ")
+    else
+      pStr:appendf("PlaceInventoryItem('%s', ", self.class)
+      if not self:SavePropsToLuaCode(indent, GetPropFunc, pStr, additional) then
+        pStr:append("nil")
+      end
+      return pStr:append(") ")
+    end
+  end
+end
