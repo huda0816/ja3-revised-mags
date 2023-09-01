@@ -20,6 +20,10 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/HighlightWeaponsForMags.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "InventoryContextMenu",
+	'CodeFileName', "Code/InventoryContextMenu.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "Inventory_MoveItem",
 	'CodeFileName', "Code/Inventory_MoveItem.lua",
 }),
@@ -48,8 +52,8 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/ModOptions.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "InventoryContextMenu",
-	'CodeFileName', "Code/InventoryContextMenu.lua",
+	'name', "RealCalibers",
+	'CodeFileName', "Code/RealCalibers.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "UI",

@@ -16,7 +16,7 @@ PlaceObj('CombatAction', {
 				weapon = unit:GetWeaponByDefIdOrDefault("Firearm", args and args.weapon) 
 			end 
 		end	 
-		return (weapon and not weapon.jammed) and GetReloadAP(weapon, args.item) or -1 
+		return (weapon and not weapon.jammed) and unit:GetReloadAP(weapon, args.item) or -1 
 	end, 
 	GetActionDisplayName = function (self, units) 
 		local unit = units[1] 
@@ -40,7 +40,6 @@ PlaceObj('CombatAction', {
 		end 
 	end, 
 	GetTargets = function (self, units) 
-		print("GetTargets")
 		local unit = units[1] 
 		local weapon = unit:GetActiveWeapons() 
 		return unit:GetAvailableAmmos(weapon) 
@@ -85,13 +84,11 @@ PlaceObj('CombatAction', {
 	RequireState = "any", 
 	RequireWeapon = true, 
 	Run = function (self, unit, ap, ...) 
-		print("Run")
 		unit:SetActionCommand("ReloadAction", self.id, ap, ...) 
 	end, 
 	ShowIn = false, 
 	SortKey = 8, 
 	UIBegin = function (self, units, args) 
-		print("UIBegin")
 		local unit = units[1] 
 		local mode_dlg = GetInGameInterfaceModeDlg() 
 		if IsKindOf(mode_dlg, "IModeCommonUnitControl") then 

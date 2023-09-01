@@ -41,14 +41,6 @@ function XInventoryItem:OnContextUpdate(item, ...)
         local text = '<color ' .. colorStyle .. '>' .. amount .. '</color>'
         self.idTopRightText:SetText(text)
     end
-    if IsKindOf(item, "Ammo") and item.IconText then
-        local colorStyle = 'AmmoBasicColor'
-        if item.ammo and item.ammo.colorStyle and item.ammo.colorStyle ~= 'AmmoBasicColor' then
-            colorStyle  = item.ammo.colorStyle
-        end
-        local text = '<color ' .. colorStyle .. '>' .. item.IconText or item.Caliber .. '</color>'
-        self.idTopRightText:SetText(text)
-    end
     local txt = item:GetItemStatusUI()
     self.idCenterText:SetTextStyle("DescriptionTextAPRed")
     self.idCenterText:SetText(txt)

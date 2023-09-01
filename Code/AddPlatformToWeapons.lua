@@ -90,7 +90,10 @@ function SetWeaponPlatform()
     HK21.Magazine = "HK21Magazine"
     FNMinimi.Magazine = "FNMinimiMagazine"
 end
-SetWeaponPlatform()
+
+function OnMsg.EnterSector()
+  SetWeaponPlatform()
+end
 
 
  

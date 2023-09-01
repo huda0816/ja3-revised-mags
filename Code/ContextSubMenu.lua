@@ -385,6 +385,8 @@ PlaceObj("XTemplate", {
             "ContextMenuButton", 
             "FocusOrder", 
             point(1, 1), 
+            "OnPressEffect",
+            "close",
             "OnPress", 
             function(self, gamepad) 
               local ammo = self.context.ammo 
@@ -419,7 +421,12 @@ PlaceObj("XTemplate", {
               elseif IsKindOf(unit, "UnitData") then 
                 NetSyncEvent("InvetoryAction_RealoadWeapon", unit.session_id, ap, actionArgs, actionArgs.target) 
               end 
-              context.slot_wnd:ClosePopup() 
+              if context.slot_wnd then
+                context.slot_wnd:ClosePopup() 
+              else
+                local popup = self:ResolveId("node"):ResolveId("node")
+                popup:Close()
+              end
               ObjModified(unit) 
               InventoryUpdate(unit) 
             end, 
