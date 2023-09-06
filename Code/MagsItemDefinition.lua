@@ -1,4 +1,3 @@
-UndefineClass("Mag")
 DefineClass.Mag = {
     __parents = {
       "InventoryItem"
@@ -9,29 +8,7 @@ DefineClass.Mag = {
         category = "Caliber",
         template = true,
         default = 'AR15',
-        editor = "combo",
-        items = function(self)
-            return {
-              "MP5",
-              "AR15",
-              "FAMAS",
-              'AK762',
-              'AK545',
-              "AUG",
-              "M14",
-              "GALIL",
-              "FNFAL",
-              "UZI",
-              "MP40",
-              "SVD",
-              "HK21",
-              "SAW",
-              'HiPower',
-              "Beretta",
-              "Glock",
-              "DesertEagle"
-            }
-          end
+        editor = "Text",
       },
       {
         category = "Caliber",
@@ -51,6 +28,7 @@ DefineClass.Mag = {
         editor = "combo",
         default = false,
         template = true,
+        modifiable = true,
         items = function(self)
           return {
             "44CAL",
@@ -64,10 +42,34 @@ DefineClass.Mag = {
             "12gauge"
           }
         end
+      },
+      {
+        category = "Caliber",
+        id = "Type",
+        editor = "combo",
+        default = false,
+        template = true,
+        modifiable = true,
+        items = function(self)
+          return {
+            "Rifle",
+            "Pistol",
+            "Large"
+          }
+        end
       }
     },
     ammo = false,
 }
+
+PlaceObj('ClassDef', {
+	DefParentClassList = {
+		"InventoryItem",
+	},
+	group = "Default",
+	id = "Mag",
+})
+
 
 function FirearmBase:GetSpecialScrapItems()
   local special_components = {}

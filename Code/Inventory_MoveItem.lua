@@ -1,7 +1,6 @@
 function IsReload(ammo, weapon)
 
      if IsKindOf(ammo,"Mag") then
-      print(ammo.ammo)
      end
     if IsKindOf(weapon,"Mag") and IsKindOf(ammo,"Mag") then return false end
     if IsMagReload(ammo, weapon) then return weapon and IsMagReloadTarget(ammo, weapon) end

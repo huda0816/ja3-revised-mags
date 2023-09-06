@@ -28,8 +28,8 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/Inventory_MoveItem.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "LootDefs",
-	'CodeFileName', "Code/LootDefs.lua",
+	'name', "LootDrop",
+	'CodeFileName', "Code/LootDrop.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "MagReload",
@@ -56,6 +56,10 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/RealCalibers.lua",
 }),
 PlaceObj('ModItemCode', {
+	'name', "RepairFix",
+	'CodeFileName', "Code/RepairFix.lua",
+}),
+PlaceObj('ModItemCode', {
 	'name', "UI",
 	'CodeFileName', "Code/UI.lua",
 }),
@@ -66,6 +70,11 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "Unit",
 	'CodeFileName', "Code/Unit.lua",
+}),
+PlaceObj('ModItemInventoryItemCompositeDef', {
+	'Group', "Upgrade",
+	'object_class', "Mag",
+	'Repairable', false,
 }),
 PlaceObj('ModItemOptionChoice', {
 	'name', "RevisedMagBaseReloadAP",

@@ -1,32 +1,3 @@
---[[FirearmProperties.properties.Platform = { 
-    category = "Caliber", 
-    id = "Platform", 
-    editor = "combo", 
-    default = false, 
-    template = true, 
-    items = function (self) return {
-    "MP5",
-    "AR15",
-    "FAMAS",
-    'AK762',
-    'AK545',
-    "AUG",
-    "M14",
-    "GALIL",
-    "FNFAL",
-    "UZI",
-    "MP40",
-    "SVD",
-    "HK21",
-    "SAW",
-    'HiPower',
-    "Beretta",
-    "Glock",
-    "DesertEagle"
-  } end, 
-}]]--
-
-
 function SetWeaponPlatform()
     HiPower.Platform = "HiPower"
     Bereta92.Platform = "Beretta"
@@ -62,7 +33,7 @@ function SetWeaponPlatform()
 
     HiPower.Magazine = "BHPMagazine"
     Bereta92.Magazine = "BerettaMagazine"
-    Glock18.Magazine = "GlockMgazine"
+    Glock18.Magazine = "GlockMagazine"
     DesertEagle.Magazine = "DesertEagleMagazine"
 
     UZI.Magazine = "UZIMagazine"
@@ -91,9 +62,7 @@ function SetWeaponPlatform()
     FNMinimi.Magazine = "FNMinimiMagazine"
 end
 
-function OnMsg.EnterSector()
-  SetWeaponPlatform()
-end
+SetWeaponPlatform()
 
 
  
