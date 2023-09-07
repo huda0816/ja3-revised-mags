@@ -1,3 +1,4 @@
+UndefineClass("Mag")
 DefineClass.Mag = {
     __parents = {
       "InventoryItem"
@@ -61,15 +62,6 @@ DefineClass.Mag = {
     },
     ammo = false,
 }
-
-PlaceObj('ClassDef', {
-	DefParentClassList = {
-		"InventoryItem",
-	},
-	group = "Default",
-	id = "Mag",
-})
-
 
 function FirearmBase:GetSpecialScrapItems()
   local special_components = {}

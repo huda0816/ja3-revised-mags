@@ -71,11 +71,6 @@ PlaceObj('ModItemCode', {
 	'name', "Unit",
 	'CodeFileName', "Code/Unit.lua",
 }),
-PlaceObj('ModItemInventoryItemCompositeDef', {
-	'Group', "Upgrade",
-	'object_class', "Mag",
-	'Repairable', false,
-}),
 PlaceObj('ModItemOptionChoice', {
 	'name', "RevisedMagBaseReloadAP",
 	'DisplayName', "Mag Reload AP",
