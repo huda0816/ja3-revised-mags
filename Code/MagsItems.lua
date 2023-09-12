@@ -20,7 +20,7 @@ DefineClass.SVDMagazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/dragunov_mag_normal",
@@ -39,7 +39,7 @@ DefineClass.UZIMagazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/uzi_mag_large",
@@ -58,7 +58,7 @@ DefineClass.MP40Magazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/expanded_MP40_magazine",
@@ -77,7 +77,7 @@ DefineClass.MP5MagazineNormal = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/mp5_mag_normal",
@@ -95,7 +95,7 @@ DefineClass.M14Magazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/M14_magazine",
@@ -114,7 +114,7 @@ DefineClass.HK21Magazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/hk21_mag_large",
@@ -133,7 +133,7 @@ DefineClass.GlockMagazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/glock_mag_normal",
@@ -153,7 +153,7 @@ DefineClass.GalilMagazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/galil_magazine_large",
@@ -170,7 +170,7 @@ DefineClass.FNMinimiMagazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/fnminimi_mag_large",
@@ -189,7 +189,7 @@ DefineClass.FNFALMagazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/fnfal_mag_ergo_normal",
@@ -207,7 +207,7 @@ DefineClass.FAMASMagazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/expanded_M14_magazine",
@@ -245,7 +245,7 @@ DefineClass.BerettaMagazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/beretta_mag_normal",
@@ -264,7 +264,7 @@ DefineClass.AUGMagazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/steyr_AUG_magazine",
@@ -282,7 +282,7 @@ DefineClass.AR15Magazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/ar15_mag_ergo_normal",
@@ -299,7 +299,7 @@ DefineClass.AK74MagazineExpanded = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/expanded_AK74_bakelite_magazine",
@@ -318,7 +318,7 @@ DefineClass.AK74Magazine = {
 	__parents = { "Mag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
-
+	Group = "Default",
 	object_class = "Mag",
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/AK74_Bakelite_magazine",

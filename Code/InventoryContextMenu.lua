@@ -1092,6 +1092,226 @@ PlaceObj("XTemplate", {
           })
         }),
         PlaceObj("XTemplateTemplate", {
+            "comment",
+            "switchPlate",
+            "__template",
+            "ContextMenuButton",
+            "Id",
+            "switchPlate",
+            "FocusOrder",
+            point(1, 5),
+            "OnContextUpdate",
+            function(self, context, ...)
+              local item = context.item
+              if not IsKindOf(item, "ArmorPlate") then
+                self:SetEnabled(false)
+                self:SetVisible(false)
+              else
+                self:SetEnabled(true)
+                self:SetVisible(true)
+              end
+            end,
+            "OnPress",
+            function(self, gamepad)
+              local context = self:ResolveId("node").context
+              if not context then
+                return
+              end
+              local item = context.item
+              item.Type = (item.Type == "Front") and "Back" or "Front"
+              context.slot_wnd:ClosePopup()
+              InventoryUIRespawn()
+            end,
+            "Text",
+            T("SWITCH PLACEMENT")
+          }, {
+            PlaceObj("XTemplateWindow", {
+              "__condition",
+              function(parent, context)
+                return InventoryIsCombatMode()
+              end,
+              "__class",
+              "XText",
+              "Margins",
+              box(0, 0, 10, 0),
+              "Dock",
+              "right",
+              "HandleMouse",
+              false,
+              "TextStyle",
+              "SatelliteContextMenuText",
+              "Translate",
+              true,
+              "TextHAlign",
+              "right"
+            }, {
+              PlaceObj("XTemplateFunc", {
+                "name",
+                "Open(self)",
+                "func",
+                function(self)
+                  self:OnSetRollover(false)
+                  XText.Open(self)
+                end
+              }),
+              PlaceObj("XTemplateFunc", {
+                "name",
+                "OnSetRollover(self, rollover)",
+                "func",
+                function(self, rollover)
+                  self:SetTextStyle(rollover and self.enabled and "SatelliteContextMenuTextRollover" or "SatelliteContextMenuText")
+                    self:SetText("Switches plate placement from Front to Back pocket.")
+                end
+              })
+            })
+          }),
+          PlaceObj("XTemplateTemplate", {
+            "comment",
+            "unloadFrontPlate",
+            "__template",
+            "ContextMenuButton",
+            "Id",
+            "unloadFrontPlate",
+            "FocusOrder",
+            point(1, 5),
+            "OnContextUpdate",
+            function(self, context, ...)
+              local item = context.item
+              if not (IsKindOf(item, "Armor") and item.FrontPlate) then
+                self:SetEnabled(false)
+                self:SetVisible(false)
+              else
+                self:SetEnabled(true)
+                self:SetVisible(true)
+              end
+            end,
+            "OnPress",
+            function(self, gamepad)
+              local context = self:ResolveId("node").context
+              if not context then
+                return
+              end
+              local item = context.item
+              UnloadPlate(item, "Front")
+              context.slot_wnd:ClosePopup()
+            end,
+            "Text",
+            T("REMOVE FRONT PLATE")
+          }, {
+            PlaceObj("XTemplateWindow", {
+              "__condition",
+              function(parent, context)
+                return InventoryIsCombatMode()
+              end,
+              "__class",
+              "XText",
+              "Margins",
+              box(0, 0, 10, 0),
+              "Dock",
+              "right",
+              "HandleMouse",
+              false,
+              "TextStyle",
+              "SatelliteContextMenuText",
+              "Translate",
+              true,
+              "TextHAlign",
+              "right"
+            }, {
+              PlaceObj("XTemplateFunc", {
+                "name",
+                "Open(self)",
+                "func",
+                function(self)
+                  self:OnSetRollover(false)
+                  XText.Open(self)
+                end
+              }),
+              PlaceObj("XTemplateFunc", {
+                "name",
+                "OnSetRollover(self, rollover)",
+                "func",
+                function(self, rollover)
+                  self:SetTextStyle(rollover and self.enabled and "SatelliteContextMenuTextRollover" or "SatelliteContextMenuText")
+                    self:SetText("Removes the front plate and puts it into the inventory.")
+                end
+              })
+            })
+          }),
+          PlaceObj("XTemplateTemplate", {
+            "comment",
+            "unloadBackPlate",
+            "__template",
+            "ContextMenuButton",
+            "Id",
+            "unloadBackPlate",
+            "FocusOrder",
+            point(1, 5),
+            "OnContextUpdate",
+            function(self, context, ...)
+              local item = context.item
+              if not (IsKindOf(item, "Armor") and item.BackPlate) then
+                self:SetEnabled(false)
+                self:SetVisible(false)
+              else
+                self:SetEnabled(true)
+                self:SetVisible(true)
+              end
+            end,
+            "OnPress",
+            function(self, gamepad)
+              local context = self:ResolveId("node").context
+              if not context then
+                return
+              end
+              local item = context.item
+             UnloadPlate(item, "Back")
+              context.slot_wnd:ClosePopup()
+            end,
+            "Text",
+            T("REMOVE BACK PLATE")
+          }, {
+            PlaceObj("XTemplateWindow", {
+              "__condition",
+              function(parent, context)
+                return InventoryIsCombatMode()
+              end,
+              "__class",
+              "XText",
+              "Margins",
+              box(0, 0, 10, 0),
+              "Dock",
+              "right",
+              "HandleMouse",
+              false,
+              "TextStyle",
+              "SatelliteContextMenuText",
+              "Translate",
+              true,
+              "TextHAlign",
+              "right"
+            }, {
+              PlaceObj("XTemplateFunc", {
+                "name",
+                "Open(self)",
+                "func",
+                function(self)
+                  self:OnSetRollover(false)
+                  XText.Open(self)
+                end
+              }),
+              PlaceObj("XTemplateFunc", {
+                "name",
+                "OnSetRollover(self, rollover)",
+                "func",
+                function(self, rollover)
+                  self:SetTextStyle(rollover and self.enabled and "SatelliteContextMenuTextRollover" or "SatelliteContextMenuText")
+                    self:SetText("Removes the back plate and puts it into the inventory.")
+                end
+              })
+            })
+          }),
+        PlaceObj("XTemplateTemplate", {
           "comment",
           "combine",
           "__condition",

@@ -56,10 +56,6 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/RealCalibers.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "RepairFix",
-	'CodeFileName', "Code/RepairFix.lua",
-}),
-PlaceObj('ModItemCode', {
 	'name', "UI",
 	'CodeFileName', "Code/UI.lua",
 }),
@@ -81,6 +77,22 @@ PlaceObj('ModItemOptionChoice', {
 		"3",
 		"4",
 		"5",
+	},
+}),
+PlaceObj('ModItemOptionChoice', {
+	'name', "RevisedMagDropChance",
+	'DisplayName', "Mag Drop Chance",
+	'Help', "How often the mags will drop",
+	'DefaultValue', "10",
+	'ChoiceList', {
+		"1",
+		"5",
+		"10",
+		"20",
+		"25",
+		"50",
+		"75",
+		"100",
 	},
 }),
 PlaceObj('ModItemOptionChoice', {

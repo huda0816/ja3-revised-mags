@@ -342,9 +342,13 @@ PlaceObj("XTemplate", {
           "ammo (reload action)", 
           "array", 
           function(parent, context) 
-            --print(context)
             local options = GetReloadOptionsForWeapon(context.item, context.context) 
-            return context.action == "reload" and GetReloadOptionsForWeapon(context.item, context.context) or {} 
+            local magOptions = GetMagReloadOptionsForWeapon(context.item, context.context) 
+            --table.insert(options, magOptions)
+            for _,v in ipairs(magOptions) do
+                table.insert(options, v)
+             end
+            return context.action == "reload" and options or {} 
           end, 
           "condition", 
           function(parent, context, item, i) 

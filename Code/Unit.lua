@@ -53,7 +53,7 @@ function Unit:ReloadAction(action_id, cost_ap, args)
   function Unit:GetMagsForWeapon(weapon) 
 	local mag_list = {} 
     self:ForEachItemInSlot("Inventory", function(item) 
-        if item:IsKindOf("Mag") and item.Platform==weapon.Platform and item.Caliber==weapon.Caliber then 
+        if IsKindOf(item, "Mag") and item.Platform==weapon.Platform and item.Caliber==weapon.Caliber and item.ammo then 
             table.insert(mag_list, item)   
         end 
       end,mag_list) 

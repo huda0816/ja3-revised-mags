@@ -6,7 +6,7 @@ function SetWeaponPlatform()
 
     UZI.Platform = "UZI"
     MP5.Platform = "MP5"
-    MP5K.Platform = "MP5K"
+    MP5K.Platform = "MP5"
     MP40.Platform = "MP40"
     AKSU.Platform = "AK545"
 
@@ -61,8 +61,8 @@ function SetWeaponPlatform()
     HK21.Magazine = "HK21Magazine"
     FNMinimi.Magazine = "FNMinimiMagazine"
 end
+function OnMsg.EnterSector()
+  SetWeaponPlatform()
+end
 
 SetWeaponPlatform()
-
-
- 

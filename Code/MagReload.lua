@@ -119,7 +119,7 @@ function GetInventoryItemDragDropFXActor(item)
       return "ArmorHeavy"
     end
   end
-  if IsKindOfClasses(item, "LBE","Backpack") then
+  if IsKindOfClasses(item, "LBE","Backpack", "ArmorPlate") then
       return "ArmorLight"
   end
   if IsKindOf(item, "Armor") then
@@ -191,7 +191,7 @@ function MagReload(mag, ammo, suspend_fx, delayed_fx)
   local change
   if prev_ammo then
     if mag.ammo.class == ammo.class then
-        add = Max(0, Min(ammo.ammo.Amount, mag.MagazineSize - mag.ammo[1].Amount))
+        add = Max(0, Min(ammo.Amount, mag.MagazineSize - mag.ammo.Amount))
         mag.ammo.Amount = mag.ammo.Amount + add
         ammo.Amount = ammo.Amount - add
         change = 0 < add
@@ -234,8 +234,7 @@ function MagReload(mag, ammo, suspend_fx, delayed_fx)
   ObjModified(mag)
   return prev_ammo, not suspend_fx, change
 end
-function OnUnloadMag()
-end
+
 
 function GetAPCostAndUnit(item, src_container, src_container_slot_name, dest_container, dest_container_slot_name, item_at_dest, is_reload)
   if not is_reload and not dest_container:CheckClass(item, dest_container_slot_name) then

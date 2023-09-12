@@ -63,29 +63,30 @@ DefineClass.Mag = {
     ammo = false,
 }
 
-function FirearmBase:GetSpecialScrapItems()
-  local special_components = {}
-  if self.Magazine then
-    g_Units[self.owner]:AddItem("Inventory", PlaceInventoryItem(self.Magazine))
-  end
-  for _, component in sorted_pairs(self.components or empty_table) do
-    local comp = WeaponComponents[component]
-    if comp then
-      for _, costs in ipairs(comp.AdditionalCosts) do
-        local idx = table.find(special_components, "restype", costs.Type)
-        if idx then
-          special_components[idx].amount = (special_components[idx].amount or 0) + costs.Amount
-        else
-          table.insert(special_components, {
-            restype = costs.Type,
-            amount = costs.Amount
-          })
-        end
-      end
-    end
-  end
-  return special_components
-end
+function FirearmBase:GetSpecialScrapItems() 
+  local special_components = {} 
+  if self.Magazine then 
+    g_Units[self.owner]:AddItem("Inventory", PlaceInventoryItem(self.Magazine)) 
+  end 
+  for _, component in sorted_pairs(self.components or empty_table) do 
+    local comp = WeaponComponents[component] 
+    if comp then 
+      for _, costs in ipairs(comp.AdditionalCosts) do 
+        local idx = table.find(special_components, "restype", costs.Type) 
+        if idx then 
+          special_components[idx].amount = (special_components[idx].amount or 0) + costs.Amount 
+        else 
+          table.insert(special_components, { 
+            restype = costs.Type, 
+            amount = costs.Amount 
+          }) 
+        end 
+      end 
+    end 
+  end 
+  return special_components 
+end 
+
 
 function Mag:__toluacode(indent, pstr, GetPropFunc)
   return self:SaveToLuaCode(indent, pstr, GetPropFunc)
@@ -100,21 +101,6 @@ function Mag:SaveToLuaCode(indent, pStr, GetPropFunc, pos)
       additional = string.format([[
 
 	 'ammo',PlaceInventoryItem('%s', %s)]], self.ammo.class, ammo_props)
-    end
-    if next(self.subweapons) ~= nil then
-      additional = additional and string.format("%s,", additional)
-      additional = string.format([[
-%s
-	 'subweapons',{]], additional or "")
-      local additionalWeps = {}
-      for slot, item in sorted_pairs(self.subweapons) do
-        additionalWeps[#additionalWeps + 1] = string.format([[
-
-		['%s'] = %s]], slot, item:__toluacode("\t\t\t", nil, GetPropFunc))
-      end
-      additional = string.format("%s%s%s", additional, table.concat(additionalWeps, ", "), [[
-
-	},]])
     end
     local props = self:SavePropsToLuaCode(indent, GetPropFunc, pStr, additional)
     props = props or "nil"
@@ -133,19 +119,6 @@ function Mag:SaveToLuaCode(indent, pStr, GetPropFunc, pos)
         additional:append("nil")
       end
       additional:append("),")
-    end
-    if next(self.subweapons) ~= nil then
-      additional:append([[
-
-	 'subweapons',{]])
-      for slot, item in sorted_pairs(self.subweapons) do
-        additional:appendf([[
-
-		['%s'] = %s]], slot, item:__toluacode("\t\t\t", nil, GetPropFunc))
-      end
-      additional:append([[
-
-	},]])
     end
     if pos then
       pStr:append(tostring(pos) .. ", ")

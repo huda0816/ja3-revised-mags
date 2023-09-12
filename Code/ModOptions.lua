@@ -1,5 +1,6 @@
 function OnMsg.ApplyModOptions()
-    RevisedMagConfigValues.MagBaseReloadAP = CurrentModOptions['RevisedMagBaseReloadAP'] * 1000
-    RevisedMagConfigValues.NonMagReloadAP = CurrentModOptions['RevisedNonMagReloadAP'] * 1000
+    RevisedMagConfigValues.MagBaseReloadAP = tonumber(CurrentModOptions['RevisedMagBaseReloadAP']) * 1000
+    RevisedMagConfigValues.NonMagReloadAP = tonumber(CurrentModOptions['RevisedNonMagReloadAP']) * 1000
+    RevisedMagConfigValues.MagDropChance = tonumber(CurrentModOptions['RevisedMagDropChance'])
 end
 
