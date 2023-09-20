@@ -8,6 +8,31 @@ function Unit:GetMagById(mag_id)
       return mag
 end
 
+function Unit:GetReloadAP(weapon, ammo, mode)
+    local unit = GetOwner(weapon)
+    local ap, minap = 0, 0
+    if IsKindOf(ammo, "Mag") or mode=="MagMode"  then
+      ap = RevisedMagConfigValues.MagBaseReloadAP
+  
+      if weapon.Tags then
+        if weapon:HasTag("Bullpup") then
+            ap = ap + 1
+        end
+    end
+      return ap
+    end
+    if unit then minap =  unit:GetMaxActionPoints()-1 
+    else minap = 9 end
+    return Min(minap, RevisedMagConfigValues.NonMagReloadAP)
+  end
+
+  function GetOwner(weapon)
+    for _, unit in pairs(g_Units) do
+      if weapon == unit:GetActiveWeapons() then return unit end
+    end
+    return false
+  end
+
 function Unit:ReloadAction(action_id, cost_ap, args) 
 	if args.reload_all then 
 	  local _, _, weapons = self:GetActiveWeapons() 
@@ -50,9 +75,9 @@ function Unit:ReloadAction(action_id, cost_ap, args)
 	end
   end
 
-  function Unit:GetMagsForWeapon(weapon) 
+  function GetMagsForWeapon(unit, weapon) 
 	local mag_list = {} 
-    self:ForEachItemInSlot("Inventory", function(item) 
+    unit:ForEachItemInSlot("Inventory", function(item) 
         if IsKindOf(item, "Mag") and item.Platform==weapon.Platform and item.Caliber==weapon.Caliber and item.ammo then 
             table.insert(mag_list, item)   
         end 

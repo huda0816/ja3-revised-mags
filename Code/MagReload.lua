@@ -170,21 +170,6 @@ function IsMagAvailableForReload(mag, ammoForWeapon)
   return true
 end
 
-function Unit:GetReloadAP(weapon, ammo)
-  local unit = g_Units[weapon.owner]
-  if IsKindOf(ammo, "Mag") then
-    local ap = ammo.ReloadAP or RevisedMagConfigValues.MagBaseReloadAP
-
-    if weapon.Tags then
-      if weapon:HasTag("Bullpup") then
-          ap = ap + 1
-      end
-  end
-    return ap
-  end
-  return Min(unit:GetMaxActionPoints()-1, RevisedMagConfigValues.NonMagReloadAP)
-end
-
 function MagReload(mag, ammo, suspend_fx, delayed_fx)
   local prev_ammo = mag.ammo
   local add = 0

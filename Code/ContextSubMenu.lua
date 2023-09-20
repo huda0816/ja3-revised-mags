@@ -345,9 +345,11 @@ PlaceObj("XTemplate", {
             local options = GetReloadOptionsForWeapon(context.item, context.context) 
             local magOptions = GetMagReloadOptionsForWeapon(context.item, context.context) 
             --table.insert(options, magOptions)
-            for _,v in ipairs(magOptions) do
+            if magOptions then 
+              for _,v in ipairs(magOptions) do
                 table.insert(options, v)
              end
+            end
             return context.action == "reload" and options or {} 
           end, 
           "condition", 

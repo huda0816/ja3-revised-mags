@@ -8,7 +8,7 @@ function GetMagReloadOptionsForWeapon(weapon, unit, skipSubWeapon)
     local options = {} 
     local errors = {} 
     for _, wpn in ipairs(weapons) do 
-      local availableMags = unit:GetMagsForWeapon(wpn) 
+      local availableMags = GetMagsForWeapon(unit, wpn)
       local availableForMag, errMag = IsWeaponAvailableForReload(wpn, availableMags) 
       if availableForMag then 
         for i, mag in ipairs(availableMags) do 

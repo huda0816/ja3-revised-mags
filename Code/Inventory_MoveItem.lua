@@ -110,7 +110,7 @@ function MoveItem(args)
     if src_container and item.locked then
       return "item is locked"
     end
-    if not is_reload and not is_refill and not is_plate_replacement then
+    if not is_reload and not is_refill then
       if item_at_dest and item_at_dest.locked then
         return "item underneath is locked"
       end
@@ -121,7 +121,7 @@ function MoveItem(args)
     local is_local_changes = exec_locally and not sync_call
     local item_is_stack = IsKindOfClasses(item, "InventoryStack")
     local partial_stack_merge = false
-    if not is_reload and not is_plate_replacement and not is_combine and not is_refill and not dest_container:CheckClass(item, dest_container_slot_name) then
+    if not is_reload and not is_combine and not is_refill and not dest_container:CheckClass(item, dest_container_slot_name) then
       return "Can't add item to container, wrong class"
     end
     local sync_ap, sync_unit
