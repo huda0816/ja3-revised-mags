@@ -15,3 +15,5 @@ function SpawnInventoryActionsSecondaryPopup(actionButton, action)
     node.spawned_subpopup = popup
     popup:Open()
   end
+
+  

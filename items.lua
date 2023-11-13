@@ -20,10 +20,6 @@ PlaceObj('ModItemCode', {
 	'CodeFileName', "Code/HighlightWeaponsForMags.lua",
 }),
 PlaceObj('ModItemCode', {
-	'name', "InventoryContextMenu",
-	'CodeFileName', "Code/InventoryContextMenu.lua",
-}),
-PlaceObj('ModItemCode', {
 	'name', "Inventory_MoveItem",
 	'CodeFileName', "Code/Inventory_MoveItem.lua",
 }),

@@ -425,7 +425,7 @@ PlaceObj("XTemplate", {
               if IsKindOf(unit, "Unit") then 
                 NetStartCombatAction("Reload", unit, ap, actionArgs) 
               elseif IsKindOf(unit, "UnitData") then 
-                NetSyncEvent("InvetoryAction_RealoadWeapon", unit.session_id, ap, actionArgs, actionArgs.target) 
+                NetSyncEvent("InvetoryAction_RealoadWeapon", unit.session_id, ap, actionArgs, ammo.class) 
               end 
               if context.slot_wnd then
                 context.slot_wnd:ClosePopup() 

@@ -9,7 +9,6 @@ function Unit:GetMagById(mag_id)
 end
 
 function Unit:GetReloadAP(weapon, ammo, mode)
-    local unit = GetOwner(weapon)
     local ap, minap = 0, 0
     if IsKindOf(ammo, "Mag") or mode=="MagMode"  then
       ap = RevisedMagConfigValues.MagBaseReloadAP
@@ -21,8 +20,23 @@ function Unit:GetReloadAP(weapon, ammo, mode)
     end
       return ap
     end
-    if unit then minap =  unit:GetMaxActionPoints()-1 
-    else minap = 9 end
+    minap =  self:GetMaxActionPoints()-1 
+    return Min(minap, RevisedMagConfigValues.NonMagReloadAP)
+  end
+
+  function UnitData:GetReloadAP(weapon, ammo, mode)
+    local ap, minap = 0, 0
+    if IsKindOf(ammo, "Mag") or mode=="MagMode"  then
+      ap = RevisedMagConfigValues.MagBaseReloadAP
+  
+      if weapon.Tags then
+        if weapon:HasTag("Bullpup") then
+            ap = ap + 1
+        end
+    end
+      return ap
+    end
+    minap =  self:GetMaxActionPoints()-1 
     return Min(minap, RevisedMagConfigValues.NonMagReloadAP)
   end
 
