@@ -1,3 +1,13 @@
+function GetMagsForWeapon(unit, weapon)
+	local mag_list = {}
+	unit:ForEachItemInSlot("Inventory", function(item)
+		if IsKindOf(item, "Mag") and item.Platform == weapon.Platform and item.Caliber == weapon.Caliber and item.ammo then
+			table.insert(mag_list, item)
+		end
+	end, mag_list)
+	return mag_list
+end
+
 function GetMagReloadOptionsForWeapon(weapon, unit, skipSubWeapon) 
     if not unit and #Selection == 0 then 
       return {} 
@@ -21,6 +31,9 @@ function GetMagReloadOptionsForWeapon(weapon, unit, skipSubWeapon)
     return options, errors 
   end
 
+
+-- what is this for?
+  
   function InsideAttackArea(dialog, goto_pos)
     if dialog.action then
       return true

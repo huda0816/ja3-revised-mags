@@ -1,7 +1,6 @@
 function SpawnInventoryActionsSecondaryPopup(actionButton, action)
     local node = actionButton:ResolveId("node")
     local context = node.context
-    --print(context)
     context.action = action
     node = node.parent
     if node.spawned_subpopup then
@@ -14,6 +13,6 @@ function SpawnInventoryActionsSecondaryPopup(actionButton, action)
     popup.popup_parent = node
     node.spawned_subpopup = popup
     popup:Open()
-  end
+end
 
   
