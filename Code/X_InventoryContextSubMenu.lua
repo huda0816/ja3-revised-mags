@@ -25,7 +25,7 @@ function OnMsg.DataLoaded()
 					"<ammo_type> (<count>)<ap>",
 					ammo_type = item.ammo.DisplayName,
 					count = count,
-					ap = apCosts and " " .. T(1209389089027890, "AP: ") .. apCosts or ""
+					ap = apCosts and " " .. T(1209389089027890, "AP: ") .. DivRound(apCosts,const.Scale.AP) or ""
 				}))
 				child:SetFocusOrder(point(2, i))
 				if not REV_IsMagAvailableForReload(item.weapon, {

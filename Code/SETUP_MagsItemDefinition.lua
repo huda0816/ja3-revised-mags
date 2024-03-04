@@ -136,13 +136,37 @@ DefineClass.Mag = {
 	ammo = false,
 }
 
+DefineClass.PistolMag = {
+	__parents = { "Mag" },
+	PistolMag_amount = 1,
+	PocketL_amount = 1,
+	PocketML_amount = 1,
+	PocketS_amount = 1,
+	PocketM_amount = 1
+}
+
+DefineClass.RifleMag = {
+	__parents = { "Mag" },
+	RifleMag_amount = 1,
+	PocketL_amount = 1,
+	PocketML_amount = 1
+}
+
+DefineClass.SmgMag = {
+	__parents = { "Mag" }
+}
+
+DefineClass.LargeMag = {
+	__parents = { "Mag" },
+	PocketL_amount = 1
+}
+
 
 function Mag:Init()
 	self.ammo = false
 end
 
 function Mag:Reload(ammo, suspend_fx, delayed_fx)
-	
 	return REV_MagReload(self, ammo, suspend_fx, delayed_fx, nil, nil, "returnPrev")
 
 	-- ObjModified(self)
@@ -152,8 +176,6 @@ end
 function Mag:GetVisualObj()
 	return nil
 end
-
-
 
 function Mag:__toluacode(indent, pstr, GetPropFunc)
 	return self:SaveToLuaCode(indent, pstr, GetPropFunc)

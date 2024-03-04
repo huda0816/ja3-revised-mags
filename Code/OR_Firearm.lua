@@ -36,6 +36,14 @@ local REV_Original_FirearmReload = Firearm.Reload
 
 function Firearm:Reload(mag, suspend_fx, delayed_fx)
 	if IsKindOf(mag, "Mag") then
+		local owner = mag.owner and REV_GetOwner(mag.owner) or GetSectorInventory(gv_CurrentSectorId)
+
+		if not owner then
+			return false, false, false
+		end
+
+
+
 		-- local prev_ammo = self.ammo
 		local change
 		local prev_ammo = self.ammo
@@ -55,13 +63,12 @@ function Firearm:Reload(mag, suspend_fx, delayed_fx)
 			end
 		end
 
-		local owner = mag.owner and REV_GetOwner(mag.owner) or GetSectorInventory(gv_CurrentSectorId)
+		local left, top = owner:GetItemPos(mag)
 
-		if owner then
-			owner:RemoveItem("Inventory", mag)
-			owner:AddItem("Inventory", prev_mag)
-		end
+		owner:RemoveItem("Inventory", mag)
+		owner:AddItem("Inventory", prev_mag, left, top)
 
+		Msg("InventoryChange", owner)
 		ObjModified(self)
 		ObjModified(owner)
 		ObjModified(mag)
@@ -100,18 +107,17 @@ function Firearm:SetMagazineComponents(id, is_init)
 
 	-- Attach new component if any
 	if def then
-		local magazine = self.magazine 
-		
+		local magazine = self.magazine
+
 		if not magazine then
 			local magazineId = g_Classes[self.class].Magazine
 
 			magazine = g_Classes[magazineId]
 		end
-		
+
 		if magazine then
 			self:AddModifier(id, "MagazineSize", 1000, magazine.MagazineSize)
 		end
-
 	end
 
 	self:UpdateVisualObj()

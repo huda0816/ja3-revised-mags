@@ -11,13 +11,12 @@ function REV_GetMagUnloadCosts(unit, item)
 
 	local unloadBullets = item.ammo and item.ammo.Amount or 0
 
-	local unloadAPperBullet = round((item.MagUnloadCosts or item.MagReloadCosts / 2) / item.MagazineSize, 1)
+	local unloadAPperBullet = DivRound((item.MagUnloadCosts or item.MagReloadCosts / 2), item.MagazineSize)
 
 	return unloadAPperBullet * unloadBullets
 end
 
 function REV_GetMagReloadCosts(unit, mag, ammo, use_more, ap)
-
 	if not ammo then
 		return 0, 0, 0
 	end
@@ -37,14 +36,14 @@ function REV_GetMagReloadCosts(unit, mag, ammo, use_more, ap)
 
 	local unloadBullets = change and mag.ammo and mag.ammo.Amount or 0
 
-	local reloadAPperBullet = round(mag.MagReloadCosts / mag.MagazineSize, 1)
+	local reloadAPperBullet = DivRound(mag.MagReloadCosts, mag.MagazineSize)
 
-	local unloadAPperBullet = round((mag.MagUnloadCosts or mag.MagReloadCosts / 2) / mag.MagazineSize, 1)
+	local unloadAPperBullet = DivRound((mag.MagUnloadCosts or mag.MagReloadCosts / 2),mag.MagazineSize)
 
 	local reloadCosts = 0
 
 	if unloadBullets > 0 then
-		local doableUnloads = round(unitAPleft / unloadAPperBullet, 1)
+		local doableUnloads = DivRound(unitAPleft, unloadAPperBullet)
 
 		if doableUnloads < unloadBullets then
 			unloadBullets = doableUnloads
@@ -59,7 +58,7 @@ function REV_GetMagReloadCosts(unit, mag, ammo, use_more, ap)
 		return reloadCosts, 0, unloadBullets
 	end
 
-	local doableReloads = round(unitAPleft / reloadAPperBullet, 1)
+	local doableReloads = DivRound(unitAPleft, reloadAPperBullet)
 
 	if doableReloads < addBullets then
 		addBullets = doableReloads
@@ -97,12 +96,14 @@ function REV_GetAmmoItems(unit, ammo, use_more)
 		end
 	end, ammo_items)
 
-	local bag = unit.Squad and GetSquadBag(unit.Squad)
+	if not InventoryIsCombatMode(unit) then
+		local bag = unit.Squad and GetSquadBag(unit.Squad)
 
-	if bag then
-		for _, item in ipairs(bag) do
-			if IsKindOf(item, ammo_class) then
-				table.insert(ammo_items, item)
+		if bag then
+			for _, item in ipairs(bag) do
+				if IsKindOf(item, ammo_class) then
+					table.insert(ammo_items, item)
+				end
 			end
 		end
 	end
@@ -119,9 +120,9 @@ function REV_MagReload(mag, ammo, suspend_fx, delayed_fx, use_more, orgAp, retur
 
 	local prev_ammo = mag.ammo
 
-	local ammo_items, total_rounds = REV_GetAmmoItems(unit, ammo, use_more)
-
 	local combatMode = unit and InventoryIsCombatMode(unit) or false
+
+	local ammo_items, total_rounds = REV_GetAmmoItems(unit, ammo, use_more)
 
 	local addBullets, unloadBullets
 
@@ -227,6 +228,8 @@ function REV_IsMagAvailableForReload(mag, ammoForWeapon)
 		fullMag = true
 	end
 
+	print("REV_IsMagAvailableForReload", anyAmmo, fullMag)
+
 	if fullMag then
 		if not anyAmmo then
 			return false, AttackDisableReasons.FullClip
@@ -262,16 +265,18 @@ function REV_GetAvailableAmmosForMags(unit, mag, ammo_type, unique)
 		slots[i] = slot_name
 	end
 
-	local bag = GetSquadBag(unit.Squad)
-	for _, ammo in ipairs(bag) do
-		if IsKindOf(ammo, ammo_class) and
-			(not ammo_type or ammo.class == ammo_type) and
-			ammo.Caliber == caliber and
-			(not mag.ammo or mag.ammo.Amount < mag.MagazineSize or mag.ammo.class ~= ammo.class)
-		then
-			if not unique or not table.find(types, "class", ammo.class) then
-				table.insert(types, ammo)
-				table.insert(containers, bag)
+	if not InventoryIsCombatMode(unit) then
+		local bag = GetSquadBag(unit.Squad)
+		for _, ammo in ipairs(bag) do
+			if IsKindOf(ammo, ammo_class) and
+				(not ammo_type or ammo.class == ammo_type) and
+				ammo.Caliber == caliber and
+				(not mag.ammo or mag.ammo.Amount < mag.MagazineSize or mag.ammo.class ~= ammo.class)
+			then
+				if not unique or not table.find(types, "class", ammo.class) then
+					table.insert(types, ammo)
+					table.insert(containers, bag)
+				end
 			end
 		end
 	end
@@ -284,14 +289,12 @@ function REV_IsMagReloadEnabled(context)
 
 	local combatMode = unit and InventoryIsCombatMode(unit) or false
 
-	if not combatMode then
-		return true
-	end
+	if combatMode then
+		local unitAPleft = unit:GetUIActionPoints()
 
-	local unitAPleft = unit:GetUIActionPoints()
-
-	if (unitAPleft < const.Scale.AP) then
-		return false
+		if (unitAPleft < const.Scale.AP) then
+			return false
+		end
 	end
 
 	local possibleOptions = REV_GetMagReloadOptions(context.item, unit, true)
@@ -308,6 +311,7 @@ function REV_GetMagReloadOptions(mag, unit, combat)
 	local errors = {}
 
 	local availableAmmo = REV_GetAvailableAmmosForMags(unit, mag, nil, "unique")
+
 	local available, err = REV_IsMagAvailableForReload(mag, availableAmmo)
 
 	if available then

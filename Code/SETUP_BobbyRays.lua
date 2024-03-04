@@ -1,6 +1,4 @@
 function OnMsg.DataLoaded()
-
-
 	PlaceObj('BobbyRayShopSubCategory', {
 		Category = "Ammo",
 		DisplayName = T(3722768203550816, --[[BobbyRayShopSubCategory Ammo UtilityAmmo DisplayName]] "Pistol Mags"),

@@ -69,6 +69,10 @@ function REV_GetMagsForWeapon(unit, weapon, args)
 				goto continue
 			end
 
+			if InventoryIsCombatMode(unit) and REV_GetItemSlotContext and REV_GetItemSlotContext(unit, item) == "Backpack" then
+				goto continue
+			end
+
 			table.insert(mag_list, item)
 
 			::continue::
