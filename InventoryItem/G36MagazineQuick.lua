@@ -1,10 +1,10 @@
 UndefineClass('G36MagazineQuick')
 DefineClass.G36MagazineQuick = {
-	__parents = { "Mag" },
+	__parents = { "RifleMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
+	object_class = "RifleMag",
 	ScrapParts = 6,
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/quick_G36_magazine",

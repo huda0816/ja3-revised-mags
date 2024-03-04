@@ -1,10 +1,10 @@
 UndefineClass('BarretM82MagazineLarge')
 DefineClass.BarretM82MagazineLarge = {
-	__parents = { "Mag" },
+	__parents = { "RifleMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
+	object_class = "RifleMag",
 	ScrapParts = 3,
 	Repairable = false,
 	Icon = "Mod/URkxyfE/magpictures/M82_mag_large.png",

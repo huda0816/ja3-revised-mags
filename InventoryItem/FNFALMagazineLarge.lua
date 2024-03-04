@@ -1,17 +1,17 @@
 UndefineClass('FNFALMagazineLarge')
 DefineClass.FNFALMagazineLarge = {
-	__parents = { "Mag" },
+	__parents = { "RifleMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
+	object_class = "RifleMag",
 	ScrapParts = 3,
 	Repairable = false,
 	Icon = "Mod/URkxyfE/magpictures/fnfal_expanded.png",
-	DisplayName = T(591226334130, "FNFAL Magazine"),
-	DisplayNamePlural = T(123423196816, "FNFAL Magazines"),
-	Description = T(137608804060, "Standard FNFAL Magazine for the 7.62mm round"),
-	AdditionalHint = T(574318320309, "7.62mm NATO"),
+	DisplayName = T(591226334130, --[[ModItemInventoryItemCompositeDef FNFALMagazineLarge DisplayName]] "FNFAL Magazine"),
+	DisplayNamePlural = T(123423196816, --[[ModItemInventoryItemCompositeDef FNFALMagazineLarge DisplayNamePlural]] "FNFAL Magazines"),
+	Description = T(137608804060, --[[ModItemInventoryItemCompositeDef FNFALMagazineLarge Description]] "Standard FNFAL Magazine for the 7.62mm round"),
+	AdditionalHint = T(574318320309, --[[ModItemInventoryItemCompositeDef FNFALMagazineLarge AdditionalHint]] "7.62mm NATO"),
 	Cost = 599,
 	CanAppearInShop = true,
 	Tier = 2,

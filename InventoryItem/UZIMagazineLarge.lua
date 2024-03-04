@@ -1,11 +1,11 @@
 UndefineClass('UZIMagazineLarge')
 DefineClass.UZIMagazineLarge = {
-	__parents = { "Mag" },
+	__parents = { "SmgMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
-	ScrapParts = 3,
+	object_class = "SmgMag",
+	ScrapParts = 2,
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/uzi_mag_large",
 	DisplayName = T(599852600977, --[[ModItemInventoryItemCompositeDef UZIMagazineLarge DisplayName]] "Extended UZI Magazine"),

@@ -1,17 +1,17 @@
 UndefineClass('GlockMagazine')
 DefineClass.GlockMagazine = {
-	__parents = { "Mag" },
+	__parents = { "PistolMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
-	ScrapParts = 3,
+	object_class = "PistolMag",
+	ScrapParts = 2,
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/glock_mag_normal",
-	DisplayName = T(626992530087, "Glock Magazine"),
-	DisplayNamePlural = T(248787786056, "Glock Magazines"),
-	Description = T(238763143918, "Standard Glock magazine"),
-	AdditionalHint = T(193087859533, "9mm"),
+	DisplayName = T(626992530087, --[[ModItemInventoryItemCompositeDef GlockMagazine DisplayName]] "Glock Magazine"),
+	DisplayNamePlural = T(248787786056, --[[ModItemInventoryItemCompositeDef GlockMagazine DisplayNamePlural]] "Glock Magazines"),
+	Description = T(238763143918, --[[ModItemInventoryItemCompositeDef GlockMagazine Description]] "Standard Glock magazine"),
+	AdditionalHint = T(193087859533, --[[ModItemInventoryItemCompositeDef GlockMagazine AdditionalHint]] "9mm"),
 	Cost = 99,
 	CanAppearInShop = true,
 	MaxStock = 6,

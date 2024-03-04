@@ -1,17 +1,17 @@
 UndefineClass('GalilMagazine')
 DefineClass.GalilMagazine = {
-	__parents = { "Mag" },
+	__parents = { "RifleMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
+	object_class = "RifleMag",
 	ScrapParts = 3,
 	Repairable = false,
 	Icon = "Mod/URkxyfE/magpictures/galil_mag_normal.png",
-	DisplayName = T(546949415062, "Galil Magazine"),
-	DisplayNamePlural = T(737487578825, "Galil Magazines"),
-	Description = T(469860253168, "Galil Magazine for the 7.62mm NATO"),
-	AdditionalHint = T(586839273520, "7.62mm NATO"),
+	DisplayName = T(546949415062, --[[ModItemInventoryItemCompositeDef GalilMagazine DisplayName]] "Galil Magazine"),
+	DisplayNamePlural = T(737487578825, --[[ModItemInventoryItemCompositeDef GalilMagazine DisplayNamePlural]] "Galil Magazines"),
+	Description = T(469860253168, --[[ModItemInventoryItemCompositeDef GalilMagazine Description]] "Galil Magazine for the 7.62mm NATO"),
+	AdditionalHint = T(586839273520, --[[ModItemInventoryItemCompositeDef GalilMagazine AdditionalHint]] "7.62mm NATO"),
 	Cost = 449,
 	CanAppearInShop = true,
 	Tier = 2,

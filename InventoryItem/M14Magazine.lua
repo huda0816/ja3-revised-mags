@@ -1,10 +1,10 @@
 UndefineClass('M14Magazine')
 DefineClass.M14Magazine = {
-	__parents = { "Mag" },
+	__parents = { "RifleMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
+	object_class = "RifleMag",
 	ScrapParts = 3,
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/M14_magazine",

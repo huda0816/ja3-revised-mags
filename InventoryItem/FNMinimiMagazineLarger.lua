@@ -1,10 +1,10 @@
 UndefineClass('FNMinimiMagazineLarger')
 DefineClass.FNMinimiMagazineLarger = {
-	__parents = { "Mag" },
+	__parents = { "LargeMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
+	object_class = "LargeMag",
 	ScrapParts = 3,
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/fnminimi_mag_large",

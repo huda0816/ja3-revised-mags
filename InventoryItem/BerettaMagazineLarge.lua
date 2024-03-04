@@ -1,11 +1,11 @@
 UndefineClass('BerettaMagazineLarge')
 DefineClass.BerettaMagazineLarge = {
-	__parents = { "Mag" },
+	__parents = { "PistolMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
-	ScrapParts = 3,
+	object_class = "PistolMag",
+	ScrapParts = 2,
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/beretta_mag_large",
 	DisplayName = T(197162323047, --[[ModItemInventoryItemCompositeDef BerettaMagazineLarge DisplayName]] "Extended Beretta Magazine"),

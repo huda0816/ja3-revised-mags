@@ -1,18 +1,18 @@
 UndefineClass('DesertEagleMagazine')
 DefineClass.DesertEagleMagazine = {
-	__parents = { "Mag" },
+	__parents = { "PistolMag" },
 	__generated_by_class = "ModItemInventoryItemCompositeDef",
 
 
-	object_class = "Mag",
-	ScrapParts = 3,
+	object_class = "PistolMag",
+	ScrapParts = 2,
 	Repairable = false,
 	Icon = "UI/Icons/Upgrades/deserteagle_mag_normal",
 	DisplayName = T(915668483121, --[[ModItemInventoryItemCompositeDef DesertEagleMagazine DisplayName]] "Desert Eagle Magazine"),
 	DisplayNamePlural = T(776313716592, --[[ModItemInventoryItemCompositeDef DesertEagleMagazine DisplayNamePlural]] "Desert Eagle Magazines"),
 	Description = T(610426682203, --[[ModItemInventoryItemCompositeDef DesertEagleMagazine Description]] "Standard Desert Eagle Magazine"),
 	AdditionalHint = T(860923252701, --[[ModItemInventoryItemCompositeDef DesertEagleMagazine AdditionalHint]] ".44 Magnum"),
-	Cost = 100,
+	Cost = 99,
 	CanAppearInShop = true,
 	MaxStock = 6,
 	RestockWeight = 90,
