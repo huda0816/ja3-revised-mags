@@ -12,7 +12,7 @@ function OnMsg.DataLoaded()
 		contextSubMenuReloadOptions.element.run_after = function(child, context, item, i, n, last)
 			if IsKindOf(item.weapon, "Mag") then
 				child:SetContext(item)
-				local count = context.unit:CountAvailableAmmo(item.ammo.class)
+				local count = context.item.owner and context.unit:CountAvailableAmmo(item.ammo.class) or REV_CountAvailableSectorAmmo(item.ammo.class)
 				local apCosts = false
 				local unload = 0
 
@@ -95,7 +95,7 @@ function OnMsg.DataLoaded()
 					pos = pos,
 					item_id = weapon.id,
 					mode = "AmmoMode",
-					ammo_id = false
+					ammo_id = ammo.id
 				}
 			end
 			local ap = CombatActions.Reload:GetAPCost(unit, actionArgs)

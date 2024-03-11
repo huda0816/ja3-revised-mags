@@ -38,7 +38,7 @@ function REV_GetMagReloadCosts(unit, mag, ammo, use_more, ap)
 
 	local reloadAPperBullet = DivRound(mag.MagReloadCosts, mag.MagazineSize)
 
-	local unloadAPperBullet = DivRound((mag.MagUnloadCosts or mag.MagReloadCosts / 2),mag.MagazineSize)
+	local unloadAPperBullet = DivRound((mag.MagUnloadCosts or mag.MagReloadCosts / 2), mag.MagazineSize)
 
 	local reloadCosts = 0
 
@@ -80,8 +80,21 @@ function REV_GetTotalRounds(ammo_items)
 end
 
 function REV_GetAmmoItems(unit, ammo, use_more)
+
 	if not use_more then
 		return { ammo }, REV_GetTotalRounds({ ammo })
+	end
+
+	if not unit then
+		if not gv_SatelliteView or not gv_CurrentSectorId then
+			return {}
+		end
+
+		unit = GetSectorInventory(gv_CurrentSectorId)
+
+		if not unit or InventoryIsCombatMode(unit) then
+			return {}
+		end
 	end
 
 	local ammo_items = {}
@@ -96,7 +109,7 @@ function REV_GetAmmoItems(unit, ammo, use_more)
 		end
 	end, ammo_items)
 
-	if not InventoryIsCombatMode(unit) then
+	if not InventoryIsCombatMode(unit) and unit then
 		local bag = unit.Squad and GetSquadBag(unit.Squad)
 
 		if bag then
@@ -113,6 +126,18 @@ end
 
 function REV_MagReload(mag, ammo, suspend_fx, delayed_fx, use_more, orgAp, returnPrev)
 	local unit = REV_GetOwner(mag.owner)
+
+	if not unit then
+		if not gv_SatelliteView or not gv_CurrentSectorId then
+			return
+		end
+
+		unit = GetSectorInventory(gv_CurrentSectorId)
+
+		if not unit or InventoryIsCombatMode(unit) then
+			return
+		end
+	end
 
 	local ap = orgAp
 
@@ -131,7 +156,7 @@ function REV_MagReload(mag, ammo, suspend_fx, delayed_fx, use_more, orgAp, retur
 			Min(mag.MagazineSize - (mag.ammo and mag.ammo.Amount or 0), total_rounds)
 
 		unloadBullets = change and mag.ammo and mag.ammo.Amount or 0
-	else
+	elseif mag.owner then
 		ap, addBullets, unloadBullets = REV_GetMagReloadCosts(unit, mag, ammo, use_more, ap)
 
 		if not orgAp then
@@ -142,13 +167,16 @@ function REV_MagReload(mag, ammo, suspend_fx, delayed_fx, use_more, orgAp, retur
 	if prev_ammo and not returnPrev then
 		if prev_ammo.Amount == 0 then
 			DoneObject(prev_ammo)
-		else
+		elseif mag.owner then
 			local bag = GetSquadBagInventory(unit.Squad)
 			UnloadWeapon(mag, bag)
 			-- no reload can be done if the aps are not enough to unload the mag
 			-- local prev = unloadBullets < prev_ammo.Amount and PlaceInventoryItem(prev_ammo.class) or prev_ammo
 			-- prev.Amount = Max(0, prev_ammo.Amount - unloadBullets)
 			-- bag:AddAndStackItem(prev)
+		else
+			MergeStackIntoContainer(unit, "Inventory", prev_ammo)
+			DoneObject(prev_ammo)
 		end
 	end
 
@@ -180,26 +208,81 @@ function REV_MagReload(mag, ammo, suspend_fx, delayed_fx, use_more, orgAp, retur
 
 		ObjModified(mag)
 
-		for i, ammo in ipairs(ammo_items) do
-			if ammo.Amount > addBullets then
-				ammo.Amount = ammo.Amount - addBullets
-				ObjModified(ammo)
+		local ammosToDestroy = {}
+
+		for i, ammo_item in ipairs(ammo_items) do
+			if ammo_item.Amount > addBullets then
+				ammo_item.Amount = ammo_item.Amount - addBullets
+				ObjModified(ammo_item)
 				break
 			end
 
-			addBullets = addBullets - ammo.Amount
+			addBullets = addBullets - ammo_item.Amount
 
-			DoneObject(ammo)
+			ammo_item.Amount = 0
+
+			table.insert(ammosToDestroy, ammo_item)
 
 			if addBullets == 0 then
 				break
 			end
 		end
 
+		local sectorInventory = GetSectorInventory(gv_CurrentSectorId)
+		local squadBag = unit and unit.Squad and GetSquadBagInventory(unit.Squad)
+
+		for _, ammosToDestroy in ipairs(ammosToDestroy) do
+			unit:RemoveItem("Inventory", ammosToDestroy)
+
+			if squadBag then
+				squadBag:RemoveItem("Inventory", ammosToDestroy)
+			end
+
+			if sectorInventory then
+				sectorInventory:RemoveItem("Inventory", ammosToDestroy)
+			end
+		end
+
+		DoneObjects(ammosToDestroy, true)
+
 		ObjModified("inventory tabs")
 	end
 
 	return prev_ammo, not suspend_fx, change
+end
+
+-- TODO: Unload into sector inventory
+-- local REV_OriginalUnloadWeapon = UnloadWeapon
+
+-- function UnloadWeapon(item, squadBag)
+-- 	if item.owner or not gv_SatelliteView or not gv_CurrentSectorId or not item.ammo then
+-- 		return REV_OriginalUnloadWeapon(item, squadBag)
+-- 	end
+
+-- 	local sectorStash = GetSectorInventory(gv_CurrentSectorId)
+
+-- 	MergeStackIntoContainer(sectorStash, "Inventory", item.ammo)
+-- 	DoneObject(item.ammo)
+-- end
+
+function REV_CountAvailableSectorAmmo(ammo_type)
+	if not gv_SatelliteView or not gv_CurrentSectorId then
+		return 0
+	end
+
+	local sectorStash = GetSectorInventory(gv_CurrentSectorId)
+
+	local l_count_available_ammo = 0
+	local slot_name = GetContainerInventorySlotName(sectorStash)
+	
+	sectorStash:ForEachItemInSlot(slot_name, ammo_type, function(ammo, slot, left, top, ammo_type)
+		if (not ammo_type or ammo.class == ammo_type) then
+			l_count_available_ammo = l_count_available_ammo + ammo.Amount
+		end
+	end, ammo_type)
+	
+	return l_count_available_ammo
+
 end
 
 function REV_FindMagReloadTarget(item, ammo)
@@ -228,8 +311,6 @@ function REV_IsMagAvailableForReload(mag, ammoForWeapon)
 		fullMag = true
 	end
 
-	print("REV_IsMagAvailableForReload", anyAmmo, fullMag)
-
 	if fullMag then
 		if not anyAmmo then
 			return false, AttackDisableReasons.FullClip
@@ -239,10 +320,23 @@ function REV_IsMagAvailableForReload(mag, ammoForWeapon)
 	elseif not anyAmmo then
 		return false, AttackDisableReasons.NoAmmo
 	end
+
 	return true
 end
 
 function REV_GetAvailableAmmosForMags(unit, mag, ammo_type, unique)
+	if not mag.owner then
+		if not gv_SatelliteView or not gv_CurrentSectorId then
+			return {}
+		end
+
+		unit = GetSectorInventory(gv_CurrentSectorId)
+
+		if not unit or InventoryIsCombatMode(unit) then
+			return {}
+		end
+	end
+
 	local ammo_class = "Ammo"
 	local types = {}
 	local containers = {}
@@ -265,7 +359,7 @@ function REV_GetAvailableAmmosForMags(unit, mag, ammo_type, unique)
 		slots[i] = slot_name
 	end
 
-	if not InventoryIsCombatMode(unit) then
+	if not InventoryIsCombatMode(unit) and mag.owner then
 		local bag = GetSquadBag(unit.Squad)
 		for _, ammo in ipairs(bag) do
 			if IsKindOf(ammo, ammo_class) and
@@ -289,6 +383,10 @@ function REV_IsMagReloadEnabled(context)
 
 	local combatMode = unit and InventoryIsCombatMode(unit) or false
 
+	if combatMode and not context.item.owner then
+		return false
+	end
+
 	if combatMode then
 		local unitAPleft = unit:GetUIActionPoints()
 
@@ -297,7 +395,7 @@ function REV_IsMagReloadEnabled(context)
 		end
 	end
 
-	local possibleOptions = REV_GetMagReloadOptions(context.item, unit, true)
+	local possibleOptions = REV_GetMagReloadOptions(context.item, unit, combatMode)
 
 	if #possibleOptions < 1 then
 		return false

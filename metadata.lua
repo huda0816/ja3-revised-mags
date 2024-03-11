@@ -1,11 +1,12 @@
 return PlaceObj('ModDef', {
-	'title', "Revised Mags",
-	'description', "This is a separate module of the Revised project that introduces magazines into the JA3 game.\nSimilar to how it worked in JA2 game.\n\n[b]Mechanics[/b]\n[list]\n	[*]Each weapon platform has a correspnding magazine (i.e. MP5, STANAG etc)\n	[*]Weapon can be reloaded with magazines or ammo. Reloading with magazines requires less AP.\n    [*]Enemies drop ammo and weapon magazines\n\n[b]UI QoL updates[/b]\n[list]\n	[*]Now you can use quick reload button to change ammo\n	[*]You can reload mags using quick reload button or context menu\n\n\nIt should work with any vanilla save.\n\nIt might not with modd that add new types of items and change the UI of the inventory. But otherwise should be pretty compatibale.\n\nThe APs required to reload the weapon can be configured in mod options.\n\nUses this mod as a dependency: steam://openurl/https://steamcommunity.com/sharedfiles/filedetails/?id=3034349618",
+	'title', "Revised Mags II (Beta)",
+	'description', "This is a reworked rerelease of Ablomis' Revised Mags mod. \n\nThis mod adds magazines for weapons to the game. \n\nIt is recommended that you use the Revised Tactical Gear II Mod together with this one but it is not required.\n\nIt is currently in beta which means that:\n\nthere are bugs \nit is not save-game compatible\nit is not compatible with a lot of popular mods\n\nI am looking forward to your bug reports. You can send your savegames to huda0816 in the JA3 modding Discord. Please do not send reports if you are using any other mods (besides Tactical Gear II mod) as I won't have time to investigate compatibility issues at the moment.\n\nInfo for mod creators: I would recommend to wait until you start to make your mod compatible to this one as there could still be major changes.\n\nMore Infos and videos will be added soon.",
 	'image', "Mod/URkxyfE/Images/JA3Revised-Mags.png",
-	'last_changes', "mag caliber fix",
+	'last_changes', "Fixed bug which caused the bullet count to be shown as 0 when reloading mags",
 	'id', "URkxyfE",
-	'author', "Ablomis",
-	'version', 1738,
+	'author', "permanent666",
+	'version_minor', 2,
+	'version', 11,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'code', {
@@ -74,17 +75,14 @@ return PlaceObj('ModDef', {
 		"Code/X_UIWeaponDisplay.lua",
 		"Code/ReloadMag.lua",
 		"Code/ReloadWeapon.lua",
+		"Code/OR_Inventory.lua",
 	},
 	'default_options', {
 		RevisedMagDropChance = "10",
 	},
 	'has_data', true,
-	'saved', 1709595328,
-	'code_hash', 6798211956768729442,
-	'screenshot1', "Mod/URkxyfE/Images/20230822083437_1.jpg",
-	'screenshot2', "Mod/URkxyfE/Images/20230826121958_1.jpg",
-	'screenshot3', "Mod/URkxyfE/Images/20230826183515_1.jpg",
-	'screenshot4', "Mod/URkxyfE/Images/20230826185306_1.jpg",
+	'saved', 1710187456,
+	'code_hash', 3044605325765726996,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "WeaponComponent",
@@ -322,7 +320,6 @@ return PlaceObj('ModDef', {
 			'ClassDisplayName', "Inventory item",
 		}),
 	},
-	'steam_id', "3023941769",
-	'TagUI', true,
+	'steam_id', "3178368899",
 	'TagWeapons&Items', true,
 })

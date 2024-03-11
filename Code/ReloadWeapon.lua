@@ -65,7 +65,7 @@ function REV_GetMagsForWeapon(unit, weapon, args)
 				goto continue
 			end
 
-			if weapon.ammo and sameType and (item.ammo.class and weapon.ammo.class) then
+			if weapon.ammo and sameType and (item.ammo.class ~= weapon.ammo.class) then
 				goto continue
 			end
 
@@ -117,6 +117,48 @@ function REV_GetMagReloadOptionsForWeapon(weapon, unit, includeEmpty, combat)
 	return options, errors
 end
 
+function REV_IsCombatReloadOfMagWeaponEnabled(context)
+	local obj = context.item
+	local unit = context.unit
+
+	local ammos = unit:GetAvailableAmmos(obj, nil, "unique")
+
+	if not ammos or #ammos < 1 then
+		return false
+	end
+
+	local unitAPleft = unit:GetUIActionPoints()
+
+	local container = context.context
+
+	local pos = container and container:GetItemPackedPos(obj)
+
+	local args = {
+		weapon = obj.class,
+		item_id = obj.id,
+		item = obj.magazine,
+		mode = "MagMode",
+		ammo_id = obj.magazine.id,
+		pos = pos
+	}
+
+	local magReloadAP = CombatActions.Reload:GetAPCost(unit, args)
+
+	local apLeft = unitAPleft - magReloadAP * 1.5
+
+	if apLeft < 0 then
+		return false
+	end
+
+	local reloadCosts, addBullets, unloadBullets = REV_GetMagReloadCosts(unit, obj.magazine, ammos[1], true, apLeft)
+
+	if addBullets < 1 then
+		return false
+	end
+
+	return true
+end
+
 function REV_IsReloadWithMagEnabled(context)
 	local obj = context.item
 	local unit = context.unit
@@ -124,7 +166,7 @@ function REV_IsReloadWithMagEnabled(context)
 	local mags = REV_GetMagsForWeapon(unit, obj)
 
 	if mags and #mags < 1 then
-		return false
+		return REV_IsCombatReloadOfMagWeaponEnabled(context)
 	end
 
 	local magWithLowestAPCost

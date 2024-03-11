@@ -1,9 +1,10 @@
 function REV_GetReloadAP(unit, weapon, ammo, mode)
+
 	if not weapon or not ammo then
 		return 0
 	end	
-	
-	if weapon and not IsKindOf(weapon, "Mag") and not weapon.Magazine then
+
+	if weapon and (not IsKindOf(weapon, "Mag") or not weapon.Magazine) then
 		return weapon.ReloadAP
 	end
 

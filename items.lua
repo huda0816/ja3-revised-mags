@@ -1678,4 +1678,8 @@ return {
 		'name', "ReloadWeapon",
 		'CodeFileName', "Code/ReloadWeapon.lua",
 	}),
+	PlaceObj('ModItemCode', {
+		'name', "OR_Inventory",
+		'CodeFileName', "Code/OR_Inventory.lua",
+	}),
 }

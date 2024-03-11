@@ -35,7 +35,7 @@ function NetSyncEvents.InvetoryAction_RealoadWeapon(session_id, ap, args, src_am
 		end
 		local mag = g_ItemIdToItem[args.item_id]
 		local ammo = g_ItemIdToItem[args.ammo_id]
-		REV_MagReload(mag, ammo, nil, nil, nil, "use_more")
+		REV_MagReload(mag, ammo, nil, nil, "use_more" )
 		if combat_mode and gv_SatelliteView then
 			unit:SyncWithSession("map")
 		end

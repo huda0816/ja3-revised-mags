@@ -33,6 +33,10 @@ function IsWeaponAvailableForReload(weapon, ammoForWeapon)
 		return true
 	end
 
+	if not ammoForWeapon or not IsKindOf(weapon, "Firearm") then
+		return false
+	end
+
 	return REV_Original_IsWeaponAvailableForReload(weapon, ammoForWeapon)
 end
 
@@ -72,6 +76,21 @@ local REV_Original_QuickReloadButton = QuickReloadButton
 function QuickReloadButton(parent, weapon, delayed_fx)
 	local unit = SelectedObj
 
+	if not weapon.Magazine then
+		local unit = SelectedObj
+		local wepIdx, ammo = GetQuickReloadWeaponAndAmmo(parent, weapon)
+		if not wepIdx then return end
+		CombatActions.Reload:Execute({ unit }, {
+			weapon = wepIdx,
+			target = ammo.class,
+			mode = "AmmoMode",
+			delayed_fx = delayed_fx,
+			item_id = weapon and weapon.id,
+			ammo_id = ammo.id
+		})
+		return true
+	end
+
 	local mag = REV_GetBestMagForWeapon(unit, weapon, { notEmpty = true, sameType = true })
 
 	if mag then
@@ -91,7 +110,7 @@ function QuickReloadButton(parent, weapon, delayed_fx)
 		return true
 	end
 
-	return REV_Original_QuickReloadButton(parent, weapon, delayed_fx)
+	-- return REV_Original_QuickReloadButton(parent, weapon, delayed_fx)
 end
 
 local REV_Original_GetReloadOptionsForWeapon = GetReloadOptionsForWeapon
@@ -113,9 +132,11 @@ function GetReloadOptionsForWeapon(weapon, unit, skipSubWeapon, includeEmpty)
 
 	local magOptions = REV_GetMagReloadOptionsForWeapon(weapon, unit, includeEmpty, combatMode)
 
-	if combatMode then
+	if combatMode and magOptions and #magOptions > 0 then
 		return magOptions
 	end
+
+	-- TODO Calculate the real ap costs for mag removing, adding and reloading
 
 	if magOptions then
 		for _, v in ipairs(magOptions) do
@@ -124,4 +145,46 @@ function GetReloadOptionsForWeapon(weapon, unit, skipSubWeapon, includeEmpty)
 	end
 
 	return options, errors
+end
+
+local REV_Original_GetAvailableAmmos = UnitInventory.GetAvailableAmmos
+
+function UnitInventory:GetAvailableAmmos(weapon, ammo_type, unique)
+	if not IsMerc(self) or not weapon then
+		return REV_Original_GetAvailableAmmos(self, weapon, ammo_type, unique)
+	end
+
+	if IsKindOfClasses(weapon, "HeavyWeapon", "FlareGun") or
+		not IsKindOfClasses(weapon, "Firearm", "HeavyWeapon") or
+		not InventoryIsCombatMode(self)
+	then
+		return REV_Original_GetAvailableAmmos(self, weapon, ammo_type, unique)
+	end
+
+	local ammo_class = "Ammo"
+	local types = {}
+	local containers = {}
+	local slots = {}
+
+	local slot_name = GetContainerInventorySlotName(self)
+	local caliber = weapon.Caliber
+	self:ForEachItemInSlot(slot_name, ammo_class, function(ammo, slot_name, left, top, types, ammo_type, caliber, unique)
+		if (not ammo_type or ammo.class == ammo_type) and ammo.Caliber == caliber then
+			if REV_GetItemSlotContext and REV_GetItemSlotContext(self, ammo) == "Backpack" then
+				goto continue
+			end
+
+			if not unique or not table.find(types, "class", ammo.class) then
+				table.insert(types, ammo)
+			end
+		end
+
+		::continue::
+	end, types, ammo_type, caliber, unique)
+	for i = 1, #types do
+		containers[i] = self
+		slots[i] = slot_name
+	end
+
+	return types, containers, slots
 end
