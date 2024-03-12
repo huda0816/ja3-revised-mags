@@ -6,7 +6,7 @@ return PlaceObj('ModDef', {
 	'id', "URkxyfE",
 	'author', "permanent666",
 	'version_minor', 2,
-	'version', 11,
+	'version', 12,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'code', {
@@ -81,8 +81,8 @@ return PlaceObj('ModDef', {
 		RevisedMagDropChance = "10",
 	},
 	'has_data', true,
-	'saved', 1710187456,
-	'code_hash', 3044605325765726996,
+	'saved', 1710281416,
+	'code_hash', -5705248625546336496,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "WeaponComponent",
