@@ -150,7 +150,7 @@ end
 local REV_Original_GetAvailableAmmos = UnitInventory.GetAvailableAmmos
 
 function UnitInventory:GetAvailableAmmos(weapon, ammo_type, unique)
-	if not IsMerc(self) or not weapon then
+	if not REVMags_IsMerc(self) or not weapon then
 		return REV_Original_GetAvailableAmmos(self, weapon, ammo_type, unique)
 	end
 

@@ -42,8 +42,6 @@ function Firearm:Reload(mag, suspend_fx, delayed_fx)
 			return false, false, false
 		end
 
-
-
 		-- local prev_ammo = self.ammo
 		local change
 		local prev_ammo = self.ammo

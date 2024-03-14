@@ -1,8 +1,7 @@
 function REV_GetReloadAP(unit, weapon, ammo, mode)
-
 	if not weapon or not ammo then
 		return 0
-	end	
+	end
 
 	if weapon and (not IsKindOf(weapon, "Mag") or not weapon.Magazine) then
 		return weapon.ReloadAP
@@ -34,4 +33,25 @@ end
 function REV_GetSubMenuReloadOptions(context)
 	local options = GetReloadOptionsForWeapon(context.item, context.unit, "skipSubWeapon", true)
 	return context.action == "reload" and options or {}
+end
+
+function REVMags_IsMerc(o)
+	local id
+	if IsKindOf(o, "Unit") then
+		id = o.unitdatadef_id
+	elseif IsKindOf(o, "UnitData") then
+		id = o.class
+	end
+
+	if gv_UnitData[o.session_id] and gv_UnitData[o.session_id].Squad then
+		local squad = gv_Squads[gv_UnitData[o.session_id].Squad]
+		if squad.militia and (squad.Side == "player1" or squad.Side == "player2") then
+			return true
+		end
+	end
+
+	if IsKindOf(o, "UnitDataCompositeDef") then
+		return o.IsMercenary
+	end
+	return id and UnitDataDefs[id].IsMercenary
 end
