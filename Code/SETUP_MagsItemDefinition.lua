@@ -139,6 +139,7 @@ DefineClass.Mag = {
 DefineClass.PistolMag = {
 	__parents = { "Mag" },
 	PistolMag_amount = 1,
+	RifleMag_amount = 1,
 	PocketL_amount = 1,
 	PocketML_amount = 1,
 	PocketS_amount = 1,
