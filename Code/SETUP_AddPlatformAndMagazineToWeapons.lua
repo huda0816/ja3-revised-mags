@@ -18,6 +18,11 @@ end
 function OnMsg.ClassesGenerate()
 	AppendClass.Firearm = {
 		{
+			id = "magazine",
+			name = "Magazine",
+			editor = "table"
+		},
+		{
 			id = "Platform",
 			category = "Caliber",
 			template = true,
@@ -47,9 +52,9 @@ function OnMsg.ClassesGenerate()
 		}
 	}
 
-	AppendClass.FirearmBase = {
-		magazine = false
-	}
+	-- AppendClass.FirearmBase = {
+	-- 	magazine = false
+	-- }
 
 	REV_SetupWeapon(HiPower, "HiPower", "BHPMagazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(Bereta92, "Beretta", "BerettaMagazine", "MagNormal", {"MagLarge", "MagNormal"})

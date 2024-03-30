@@ -8,13 +8,14 @@ function OnMsg.DataLoaded()
 			local unitContainer = weaponContainer:ResolveId("node")
 			local unit = unitContainer.context
 			local weapon = weaponContainer.context
-			local wepIdx, ammo = GetQuickReloadWeaponAndAmmo(self, weapon)
-			local bullets = GetBulletCount(weapon)
-			local full = bullets == weapon.MagazineSize
-			local canReload = not full and wepIdx
-			local enabled = canReload and CombatActions.Reload:GetVisibility({ unit }) == "enabled"
+			local enabled = false
+			if not weapon.Magazine then
+				enabled = REV_IsNonMagReloadEnabled({ unit = unit, item = weapon })
+			else
+				enabled = REV_IsReloadWithMagEnabled({ unit = unit, item = weapon })
+			end
 			-- TODO: Check if there is alternative ammo available and remove unused checks
-			self:SetEnabled(true)
+			self:SetEnabled(enabled)
 			self:ResolveId("node").context.item = weapon
 			self:ResolveId("node").context.unit = unit
 			self:SetGridY(#self.parent + 1) -- Last
@@ -35,24 +36,17 @@ function OnMsg.DataLoaded()
 	if subReloadButton and subReloadButton.element then
 		subReloadButton.element.OnContextUpdate = function(self, context, ...)
 			local weapon = self:ResolveId("node").context
-			local wepIdx, ammo = GetQuickReloadWeaponAndAmmo(self, weapon)
-			local bullets = GetBulletCount(weapon)
 			local item = weapon
 			while item.parent_weapon do
 				item = item.parent_weapon
 			end
+			local enabled
 			local units = Selection
 			if item and item.owner then
 				local owner = g_Units[item.owner]
-				if owner then
-					units = { owner }
-				end
+				enabled = REV_IsNonMagReloadEnabled({ unit = owner, item = weapon })
 			end
-			local full = bullets == weapon.MagazineSize
-			local canReload = not full and wepIdx
-			local enabled = canReload and CombatActions.Reload:GetVisibility(units) == "enabled"
-			-- TODO: Check if there is alternative ammo available and remove unused checks
-			self:SetEnabled(true)
+			self:SetEnabled(enabled)
 			self:ResolveId("node").context.item = weapon
 			self:ResolveId("node").context.unit = units[1]
 		end
@@ -73,7 +67,7 @@ function SpawnWeaponUiReloadPopup(actionButton, action)
 	context.action = action
 	if node.spawned_popup then
 		node.spawned_popup:Close()
-		node.spawned_popup = nil	
+		node.spawned_popup = nil
 		return
 	end
 	local popup = XTemplateSpawn("InventoryContextSubMenu", terminal.desktop, context)

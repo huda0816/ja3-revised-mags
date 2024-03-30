@@ -1682,4 +1682,11 @@ return {
 		'name', "OR_Inventory",
 		'CodeFileName', "Code/OR_Inventory.lua",
 	}),
+	PlaceObj('ModItemCode', {
+		'CodeFileName', "Code/Script.lua",
+	}),
+	PlaceObj('ModItemCode', {
+		'name', "X_WeaponModChoicePopup",
+		'CodeFileName', "Code/X_WeaponModChoicePopup.lua",
+	}),
 }

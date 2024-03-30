@@ -127,6 +127,10 @@ function REV_IsCombatReloadOfMagWeaponEnabled(context)
 		return false
 	end
 
+	if not IsWeaponAvailableForReload(obj, ammos) then
+		return false
+	end
+
 	local unitAPleft = unit:GetUIActionPoints()
 
 	local container = context.context
@@ -202,6 +206,42 @@ function REV_IsReloadWithMagEnabled(context)
 	end
 
 	return false
+end
+
+function REV_IsNonMagReloadEnabled(context)
+	local unit = context.unit
+	local enabled = false
+	local args = { weapon = context.item.class, item_id = context.item.id, pos = context.context and
+	context.context:GetItemPackedPos(context.item) or nil }
+	local action = CombatActions.Reload
+	local ap = action:GetAPCost(unit, args)
+	if not context.context or context.context:IsKindOf("UnitInventory") then -- disable for item containers
+		if IsKindOf(unit, "Unit") then                                    -- on the map -  use real unit and combat actions
+			enabled = action:GetUIState({ unit }, args) == "enabled"
+		else                                                              -- sat view and on the different map, duplicate the code								
+			if ap < 0 then
+				enabled = false
+			elseif not unit:UIHasAP(ap) then
+				enabled = false
+			else
+				local weapon = context.item
+				local ammoForWeapon = unit:GetAvailableAmmos(weapon, nil, "unique")
+				if not ammoForWeapon and (not InventoryIsCombatMode(unit) or not REVMags_IsMerc(unit)) then
+					local bag = unit.Squad and GetSquadBagInventory(unit.Squad)
+					if bag then
+						ammoForWeapon = bag:GetAvailableAmmos(weapon, nil, "unique")
+					end
+				end
+				if IsWeaponAvailableForReload(weapon, ammoForWeapon) then
+					enabled = true
+				else
+					enabled = false
+				end
+			end
+		end
+	end
+
+	return enabled
 end
 
 function REV_MagReloadWeapon(unit, gun, mag, delayed_fx, ai)

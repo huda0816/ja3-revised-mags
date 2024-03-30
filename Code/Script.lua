@@ -1,0 +1,60 @@
+-- UndefineClass("WeaponComponentItem")
+-- DefineClass.WeaponComponentItem = {
+-- 	__parents = {
+-- 		"InventoryItem",
+-- 		"BobbyRayShopAmmoProperties"
+-- 	},
+-- 	properties = {
+-- 		{
+-- 			id = "WeaponUpgradeSlot",
+-- 			template = true,
+-- 			default = 'Scope',
+-- 			editor = "text",
+-- 		},
+-- 		{
+-- 			id = "Platforms",
+-- 			template = true,
+-- 			default = 'AR15',
+-- 			editor = "text",
+-- 		},
+-- 		-- {
+-- 		-- 	id = "Modification",
+-- 		-- 	editor = "combo",
+-- 		-- 	default = "false",
+-- 		-- 	template = true,
+-- 		-- 	modifiable = true,
+-- 		-- 	items = function(self)
+-- 		-- 		local presetsComponents = Presets.WeaponComponentSharedClass[self.WeaponUpgradeSlot]
+
+-- 		-- 		local presetComponentIds = {}
+
+-- 		-- 		for id, presetComponent in ipairs(presetsComponents) do
+-- 		-- 			if type(presetComponent) == "table" then
+-- 		-- 				table.insert(presetComponentIds, presetComponent.id)
+-- 		-- 			end
+-- 		-- 		end
+
+-- 		-- 		return presetComponentIds
+-- 		-- 	end
+-- 		-- },
+-- 		{
+-- 			id = "WeaponComponentId",
+-- 			editor = "text",
+-- 			default = "false",
+-- 			template = true,
+-- 			modifiable = true
+-- 		},
+-- 		{
+-- 			category = "Default",
+-- 			id = "Weight",
+-- 			name = "Component Weight",
+-- 			help = "Weight of the component",
+-- 			editor = "number",
+-- 			default = 100,
+-- 			template = true,
+-- 			min = 0,
+-- 			max = 500000,
+-- 			modifiable = true,
+-- 		},
+-- 	}
+-- }

@@ -36,14 +36,14 @@ function REV_GetMagReloadCosts(unit, mag, ammo, use_more, ap)
 
 	local unloadBullets = change and mag.ammo and mag.ammo.Amount or 0
 
-	local reloadAPperBullet = DivRound(mag.MagReloadCosts, mag.MagazineSize)
+	local reloadAPperBullet = mag.MagReloadCosts / mag.MagazineSize
 
-	local unloadAPperBullet = DivRound((mag.MagUnloadCosts or mag.MagReloadCosts / 2), mag.MagazineSize)
+	local unloadAPperBullet = (mag.MagUnloadCosts or mag.MagReloadCosts / 2) / mag.MagazineSize
 
 	local reloadCosts = 0
 
 	if unloadBullets > 0 then
-		local doableUnloads = DivRound(unitAPleft, unloadAPperBullet)
+		local doableUnloads = unitAPleft / unloadAPperBullet
 
 		if doableUnloads < unloadBullets then
 			unloadBullets = doableUnloads
@@ -58,7 +58,7 @@ function REV_GetMagReloadCosts(unit, mag, ammo, use_more, ap)
 		return reloadCosts, 0, unloadBullets
 	end
 
-	local doableReloads = DivRound(unitAPleft, reloadAPperBullet)
+	local doableReloads = unitAPleft / reloadAPperBullet
 
 	if doableReloads < addBullets then
 		addBullets = doableReloads

@@ -1,4 +1,11 @@
+local OriginalHighlightWeaponsForAmmo = HighlightWeaponsForAmmo
+
 function HighlightWeaponsForAmmo(ammo, bShow)
+
+	if not IsKindOf(ammo, "Mag") then
+		return OriginalHighlightWeaponsForAmmo(ammo, bShow)
+	end
+
 	local dlg = GetMercInventoryDlg()
 	if not dlg or not ammo then
 		return 

@@ -39,9 +39,7 @@ function OnMsg.DataLoaded()
 		reloadTemplate.element.OnContextUpdate = function(self, context, ...)
 			if IsKindOf(context.item, "Mag") then
 				self:SetEnabled(REV_IsMagReloadEnabled(context))
-			elseif not context.item.Magazine then
-				return OriginalOnContextUpdate(self, context, ...)
-			else
+			elseif context.item.Magazine then
 				if REV_IsReloadWithMagEnabled(context) then
 					self:SetEnabled(true)
 					return
@@ -49,9 +47,11 @@ function OnMsg.DataLoaded()
 					self:SetEnabled(false)
 					return
 				end
-
-				OriginalOnContextUpdate(self, context, ...)
 			end
+			
+			local enabled = REV_IsNonMagReloadEnabled(context)
+
+			self:SetEnabled(enabled)
 		end
 
 		reloadTemplate.element[1].__condition = function(parent, context)

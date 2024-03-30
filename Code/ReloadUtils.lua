@@ -1,10 +1,12 @@
+GameVar("g_StoredMags", {})
+
 function REV_GetReloadAP(unit, weapon, ammo, mode)
-	if not weapon or not ammo then
-		return 0
+	if weapon and not IsKindOf(weapon, "Mag") and not weapon.Magazine then
+		return weapon.ReloadAP
 	end
 
-	if weapon and (not IsKindOf(weapon, "Mag") or not weapon.Magazine) then
-		return weapon.ReloadAP
+	if not weapon or not ammo then
+		return 0
 	end
 
 	local combat_mode = g_Units[unit.session_id] and InventoryIsCombatMode(g_Units[unit.session_id])

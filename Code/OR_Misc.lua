@@ -37,7 +37,18 @@ function IsWeaponAvailableForReload(weapon, ammoForWeapon)
 		return false
 	end
 
-	return REV_Original_IsWeaponAvailableForReload(weapon, ammoForWeapon)
+	local anyAmmo = #ammoForWeapon > 0
+	local onlyAmmoIsCurrent = weapon.ammo and #ammoForWeapon == 1 and ammoForWeapon[1].class == weapon.ammo.class
+	local fullMag = weapon.ammo and weapon.ammo.Amount == weapon.MagazineSize
+	if fullMag then
+		if onlyAmmoIsCurrent or not anyAmmo then
+			return false, AttackDisableReasons.FullClip
+		end
+	else
+		if not anyAmmo then return false, AttackDisableReasons.NoAmmo end
+	end
+
+	return true
 end
 
 local REV_Original_GetInventoryItemDragDropFXActor = GetInventoryItemDragDropFXActor
@@ -154,14 +165,7 @@ function UnitInventory:GetAvailableAmmos(weapon, ammo_type, unique)
 		return REV_Original_GetAvailableAmmos(self, weapon, ammo_type, unique)
 	end
 
-	if IsKindOfClasses(weapon, "HeavyWeapon", "FlareGun") or
-		not IsKindOfClasses(weapon, "Firearm", "HeavyWeapon") or
-		not InventoryIsCombatMode(self)
-	then
-		return REV_Original_GetAvailableAmmos(self, weapon, ammo_type, unique)
-	end
-
-	local ammo_class = "Ammo"
+	local ammo_class = IsKindOfClasses(weapon, "HeavyWeapon", "FlareGun") and "Ordnance" or "Ammo"
 	local types = {}
 	local containers = {}
 	local slots = {}
@@ -181,6 +185,7 @@ function UnitInventory:GetAvailableAmmos(weapon, ammo_type, unique)
 
 		::continue::
 	end, types, ammo_type, caliber, unique)
+
 	for i = 1, #types do
 		containers[i] = self
 		slots[i] = slot_name
