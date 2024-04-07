@@ -2,11 +2,11 @@ return PlaceObj('ModDef', {
 	'title', "Revised Mags II (Beta)",
 	'description', "This is a reworked rerelease of Ablomis' Revised Mags mod. \n\nThis mod adds magazines for weapons to the game. \n\nIt is recommended that you use the Revised Tactical Gear II Mod together with this one but it is not required.\n\nIt is currently in beta which means that:\n\nthere are bugs \nit is not save-game compatible\nit is not compatible with a lot of popular mods\n\nI am looking forward to your bug reports. You can send your savegames to huda0816 in the JA3 modding Discord. Please do not send reports if you are using any other mods (besides Tactical Gear II and Revised Components mod) as I won't have time to investigate compatibility issues at the moment.\n\nInfo for mod creators: I would recommend to wait until you start to make your mod compatible to this one as there could still be major changes.\n\nMore Infos and videos will be added soon.",
 	'image', "Mod/URkxyfE/Images/JA3Revised-Mags.png",
-	'last_changes', "Made magazines persistent when attached to weapons\nMultiple smaller fixes",
+	'last_changes', "Fixed problem where one could not reload weapons from ammo",
 	'id', "URkxyfE",
 	'author', "permanent666",
-	'version_minor', 6,
-	'version', 95,
+	'version_minor', 7,
+	'version', 97,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'code', {
@@ -83,8 +83,8 @@ return PlaceObj('ModDef', {
 		RevisedMagDropChance = "10",
 	},
 	'has_data', true,
-	'saved', 1711757029,
-	'code_hash', 4139557172690964873,
+	'saved', 1712099192,
+	'code_hash', -8139838722709426751,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "WeaponComponent",

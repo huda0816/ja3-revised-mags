@@ -39,6 +39,7 @@ function OnMsg.DataLoaded()
 		reloadTemplate.element.OnContextUpdate = function(self, context, ...)
 			if IsKindOf(context.item, "Mag") then
 				self:SetEnabled(REV_IsMagReloadEnabled(context))
+				return
 			elseif context.item.Magazine then
 				if REV_IsReloadWithMagEnabled(context) then
 					self:SetEnabled(true)

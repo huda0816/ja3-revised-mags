@@ -191,5 +191,18 @@ function UnitInventory:GetAvailableAmmos(weapon, ammo_type, unique)
 		slots[i] = slot_name
 	end
 
+    if not InventoryIsCombatMode(self) then
+		local bag = GetSquadBag(self.Squad)
+		for _, ammo in ipairs(bag) do
+			if IsKindOf(ammo, ammo_class) and (not ammo_type or ammo.class == ammo_type) and ammo.Caliber == caliber then
+				if not unique or not table.find(types, "class", ammo.class) then
+					table.insert(types, ammo)
+					table.insert(containers, bag)
+					table.insert(slots, nil)
+				end
+			end
+		end
+	end
+
 	return types, containers, slots
 end

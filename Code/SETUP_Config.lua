@@ -1,3 +1,3 @@
 RevisedMagConfigValues = {
-    MagDropChance = 10
+    MagDropChance = 8
 }

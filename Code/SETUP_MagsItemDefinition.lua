@@ -229,3 +229,10 @@ function Mag:SaveToLuaCode(indent, pStr, GetPropFunc, pos)
 		end
 	end
 end
+
+function OnMsg.DataLoaded()
+
+	local ammoTab = Presets.InventoryTab.Default.ammo
+
+	ammoTab.item_classes[#ammoTab.item_classes + 1] = "Mag"
+end
