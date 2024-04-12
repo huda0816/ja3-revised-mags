@@ -11,7 +11,9 @@ function IsReload(ammo, weapon)
 
 	if IsKindOf(weapon, "Weapon") and IsKindOf(ammo, "Mag") then return true end
 
-	if IsKindOf(weapon, "Mag") and IsKindOf(ammo, "Ammo") then return true end
+	if IsKindOf(weapon, "Mag") and IsKindOf(ammo, "Ammo") then
+		return REV_IsMagReloadTarget(ammo, weapon)
+	end
 
 	return REV_Original_IsReload(ammo, weapon)
 end
@@ -27,7 +29,7 @@ function GetAPCostAndUnit(item, src_container, src_container_slot_name, dest_con
 		end
 		local inv_unit = GetInventoryUnit()
 		local unit = IsKindOf(dest_unit, "Unit") and not dest_unit:IsDead() and dest_unit or
-		inv_unit                                                                                --user can be reloading in container, hence dest_unit can be a container
+			inv_unit --user can be reloading in container, hence dest_unit can be a container
 		local action = CombatActions["Reload"]
 		local pos = dest_container:GetItemPackedPos(item_at_dest)
 

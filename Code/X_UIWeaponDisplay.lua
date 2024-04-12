@@ -61,6 +61,8 @@ function OnMsg.DataLoaded()
 	end
 end
 
+local REV_SpawnedPopup = nil
+
 function SpawnWeaponUiReloadPopup(actionButton, action)
 	local node = actionButton:ResolveId("node")
 	local context = node.context
@@ -68,6 +70,9 @@ function SpawnWeaponUiReloadPopup(actionButton, action)
 	if node.spawned_popup then
 		node.spawned_popup:Close()
 		node.spawned_popup = nil
+		if REV_SpawnedPopup then
+			REV_SpawnedPopup = nil
+		end
 		return
 	end
 	local popup = XTemplateSpawn("InventoryContextSubMenu", terminal.desktop, context)
@@ -75,5 +80,22 @@ function SpawnWeaponUiReloadPopup(actionButton, action)
 	popup:SetAnchor(actionButton.box)
 	popup.popup_parent = node
 	node.spawned_popup = popup
+
+	REV_SpawnedPopup = REV_SpawnedPopup or nil
+	REV_SpawnedPopup = popup
 	popup:Open()
+end
+
+function OnMsg.SelectionChange()
+	if REV_SpawnedPopup then
+		REV_SpawnedPopup:Close()
+		REV_SpawnedPopup = nil
+	end
+end
+
+function OnMsg.UnitSwappedWeapon(unit)
+	if REV_SpawnedPopup then
+		REV_SpawnedPopup:Close()
+		REV_SpawnedPopup = nil
+	end
 end

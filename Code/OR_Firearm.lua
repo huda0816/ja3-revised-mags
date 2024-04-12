@@ -8,10 +8,21 @@ function FirearmBase:GetSpecialScrapItems()
 			unit = REV_GetOwner(self.owner)
 		end
 
-		local container = unit or GetSectorInventory(gv_CurrentSectorId)
+		local container = unit
 
-		if container then
-			container:AddItem("Inventory", self.magazine or PlaceInventoryItem(self.Magazine))
+		local magazine = self.magazine or PlaceInventoryItem(self.Magazine)
+
+		if not container or not container:AddItem("Inventory", magazine) then
+			if gv_SatelliteView and gv_SectorInventory then
+				container = gv_SectorInventory
+			else
+				container = PlaceObject("ItemDropContainer")
+				local drop_pos = terrain.FindPassable(container, 0, const.SlabSizeX / 2)
+				container:SetPos(drop_pos or unit and unit:GetPos())
+				container:SetAngle(container:Random(21600))
+			end
+
+			container:AddItem("Inventory", magazine)
 		end
 	end
 
@@ -113,6 +124,9 @@ local REV_Original_FirearmBaseSetWeaponComponent = FirearmBase.SetWeaponComponen
 
 function FirearmBase:SetWeaponComponent(slot, id, is_init)
 	if slot == "Magazine" then
+		if self.components.Magazine then
+			print(self.components.Magazine)
+		end
 		self:SetMagazineComponents(id, is_init)
 	else
 		REV_Original_FirearmBaseSetWeaponComponent(self, slot, id, is_init)

@@ -131,9 +131,13 @@ function REV_IsCombatReloadOfMagWeaponEnabled(context)
 		return false
 	end
 
+	if not InventoryIsCombatMode(unit) then
+		return true
+	end
+
 	local unitAPleft = unit:GetUIActionPoints()
 
-	local container = context.context
+	local container = unit
 
 	local pos = container and container:GetItemPackedPos(obj)
 

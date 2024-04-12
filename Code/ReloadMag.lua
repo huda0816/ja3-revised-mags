@@ -11,7 +11,9 @@ function REV_GetMagUnloadCosts(unit, item)
 
 	local unloadBullets = item.ammo and item.ammo.Amount or 0
 
-	local unloadAPperBullet = DivRound((item.MagUnloadCosts or item.MagReloadCosts / 2), item.MagazineSize)
+	local unloadAP = item.MagUnloadCosts or item.MagReloadCosts and item.MagReloadCosts / 2 or 0
+
+	local unloadAPperBullet = unloadAP and item.MagazineSize and DivRound(unloadAP, item.MagazineSize) or 0
 
 	return unloadAPperBullet * unloadBullets
 end
