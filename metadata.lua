@@ -1,12 +1,12 @@
 return PlaceObj('ModDef', {
-	'title', "Revised Mags II (Beta)",
-	'description', "This is a reworked rerelease of Ablomis' Revised Mags mod. \n\nThis mod adds magazines for weapons to the game. \n\nIt is recommended that you use the Revised Tactical Gear II Mod together with this one but it is not required.\n\nIt is currently in beta which means that:\n\nthere are bugs \nit is not save-game compatible\nit is not compatible with a lot of popular mods\n\nI am looking forward to your bug reports. You can send your savegames to huda0816 in the JA3 modding Discord. Please do not send reports if you are using any other mods (besides Tactical Gear II and Revised Components mod) as I won't have time to investigate compatibility issues at the moment.\n\nInfo for mod creators: I would recommend to wait until you start to make your mod compatible to this one as there could still be major changes.\n\nMore Infos and videos will be added soon.",
+	'title', "Revised Mags II",
+	'description', "This is a reworked rerelease of Ablomis' Revised Mags mod. \n\nThis mod adds magazines for weapons to the game. \n\nIt is recommended that you use the Revised Tactical Gear II Mod together with this one but it is not required.\n\n[b]Important[/b]\n[list]\n[*]Restart the game after activating the mod\n[*]It is save game compatible but you won't have spare mags for existing weapons\n[*]Weapons from mods won't have mags. There could also be problems with custom calibers\n[*]If you are a mod creator and want to increase compatibility, please contact me\n[*]There was decent amount of playtesting but there can still be bugs.\n[*]If you find bugs, please send me your bug reports.\n[/list]",
 	'image', "Mod/URkxyfE/Images/JA3Revised-Mags.png",
-	'last_changes', "Fixed problem where one could not reload weapons from ammo",
+	'last_changes', "Test steam upload",
 	'id', "URkxyfE",
 	'author', "permanent666",
-	'version_minor', 7,
-	'version', 97,
+	'version_minor', 11,
+	'version', 137,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'code', {
@@ -83,8 +83,8 @@ return PlaceObj('ModDef', {
 		RevisedMagDropChance = "10",
 	},
 	'has_data', true,
-	'saved', 1712099192,
-	'code_hash', -8139838722709426751,
+	'saved', 1712951744,
+	'code_hash', 7631603858181360894,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "WeaponComponent",
