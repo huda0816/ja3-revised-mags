@@ -55,13 +55,15 @@ function OnMsg.ClassesGenerate()
 	-- AppendClass.FirearmBase = {
 	-- 	magazine = false
 	-- }
+end
 
+function OnMsg.ClassesPreprocess()
 	REV_SetupWeapon(HiPower, "HiPower", "BHPMagazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(Bereta92, "Beretta", "BerettaMagazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(Glock18, "Glock", "GlockMagazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(DesertEagle, "DesertEagle", "DesertEagleMagazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(UZI, "UZI", "UZIMagazine", "MagNormal", {"MagLarge", "MagNormal"})
-	REV_SetupWeapon(LionRoar, "UZI", "UZIMagazine", "MagLarge", {"MagLarge", "MagNormal"})
+	-- REV_SetupWeapon(LionRoar, "UZI", "UZIMagazine", "MagLarge", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(MP5, "MP5", "MP5Magazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(MP5K, "MP5", "MP5Magazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(MP40, "MP40", "MP40Magazine", "MagNormal", {"MagLarge", "MagNormal"})
@@ -78,7 +80,7 @@ function OnMsg.ClassesGenerate()
 	REV_SetupWeapon(Galil_FlagHill, "Galil", "GalilMagazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(G36, "G36", "G36MagazineLarge", "MagLarge", {"MagLarger", "MagLarge"})
 	REV_SetupWeapon(M14SAW, "M14", "M14Magazine", "MagNormal", {"MagLarge", "MagNormal"})
-	REV_SetupWeapon(GoldenGun, "M14", "M14Magazine", "MagNormal", {"MagLarge", "MagNormal"})
+	-- REV_SetupWeapon(GoldenGun, "M14", "M14Magazine", "MagNormal", {"MagLarge", "MagNormal"})
 	-- REV_SetupWeapon(M24Sniper, "M14", "M14Magazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(PSG1, "HKG3", "HKG3Magazine", "MagNormal", {"MagLarge", "MagNormal"})
 	REV_SetupWeapon(DragunovSVD, "SVD", "SVDMagazine", "MagNormal", {"MagNormal"})
