@@ -2,11 +2,11 @@ return PlaceObj('ModDef', {
 	'title', "Revised Mags II",
 	'description', "This is a reworked rerelease of Ablomis' Revised Mags mod. \n\nThis mod adds magazines for weapons to the game. \n\nIt is recommended that you use the Revised Tactical Gear II Mod together with this one but it is not required.\n\n[b]Important[/b]\n[list]\n[*]Restart the game after activating the mod\n[*]It is save game compatible but you won't have spare mags for existing weapons\n[*]Weapons from mods won't have mags. There could also be problems with custom calibers\n[*]If you are a mod creator and want to increase compatibility, please contact me\n[*]There was decent amount of playtesting but there can still be bugs.\n[*]If you find bugs, please send me your bug reports.\n[/list]",
 	'image', "Mod/URkxyfE/Images/JA3Revised-Mags.png",
-	'last_changes', "Hotfix Gold Fever and The Lion's Roar 0/0 ammo issue",
+	'last_changes', "LionRoar and Goldfever fix\nIncreased compatibility with Zulib caliber library",
 	'id', "URkxyfE",
 	'author', "permanent666",
 	'version_minor', 12,
-	'version', 139,
+	'version', 144,
 	'lua_revision', 233360,
 	'saved_with_revision', 350233,
 	'code', {
@@ -83,8 +83,8 @@ return PlaceObj('ModDef', {
 		RevisedMagDropChance = "10",
 	},
 	'has_data', true,
-	'saved', 1717321300,
-	'code_hash', 3218958919416122767,
+	'saved', 1717449810,
+	'code_hash', -3237911350962291947,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "WeaponComponent",
