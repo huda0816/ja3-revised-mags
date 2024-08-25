@@ -236,3 +236,56 @@ function OnMsg.DataLoaded()
 
 	ammoTab.item_classes[#ammoTab.item_classes + 1] = "Mag"
 end
+
+function OnMsg.RevisedWeightAddedToItemProperties()
+	LargeMag.Weight = 300
+	-- G36MagazineLarger
+	-- FNMinimiMagazineLarge
+	-- HKG3MagazineLarger
+	-- FNMinimiMagazineLarger
+	-- AK47MagazineMagLarger
+	-- AA12MagazineLarge
+
+	PistolMag.Weight = 100
+	-- BerettaMagazineLarge
+	-- DesertEagleMagazine
+	-- GlockMagazineLarge
+	-- GlockMagazine
+	-- DesertEagleMagazineLarge
+	-- BHPMagazine
+	-- BHPMagazineLarge
+	-- BerettaMagazine
+
+	RifleMag.Weight = 200
+	-- G36MagazineQuick
+	-- STANAGMagazineLarge
+	-- AK47MagazineMagLarge
+	-- FNFALMagazine
+	-- GalilMagazineLarge
+	-- HKG3Magazine
+	-- AA12Magazine
+	-- M14MagazineLarge
+	-- AUGMagazineLarge
+	-- M14Magazine
+	-- SVDMagazine
+	-- GalilMagazine
+	-- STANAGMagazine
+	-- FAMASMagazine
+	-- BarretM82Magazine
+	-- AK47Magazine
+	-- AK74MagazineLarge
+	-- BarretM82MagazineLarge
+	-- HKG3MagazineLarge
+	-- FNFALMagazineLarge
+	-- AUGMagazine
+	-- G36MagazineLarge
+	-- AK74Magazine
+
+	SmgMag.Weight = 150
+	-- MP40MagazineLarge
+	-- UZIMagazine
+	-- MP5Magazine
+	-- MP40Magazine
+	-- MP5MagazineLarge
+	-- UZIMagazineLarge
+end

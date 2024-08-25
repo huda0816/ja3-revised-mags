@@ -60,6 +60,7 @@ return {
 			'Help', "How often the mags will drop",
 			'DefaultValue', "10",
 			'ChoiceList', {
+				"0",
 				"1",
 				"5",
 				"10",
