@@ -33,7 +33,7 @@ local REV_Original_FirearmReload = Firearm.Reload
 
 function Firearm:Reload(mag, suspend_fx, delayed_fx)
 	if IsKindOf(mag, "Mag") then
-		local owner = mag.owner and REV_GetOwner(mag.owner) or GetSectorInventory(gv_CurrentSectorId)
+		local owner = mag.owner and REV_GetOwner(mag.owner) or (gv_SectorInventory.sector_id and GetSectorInventory(gv_SectorInventory.sector_id)) or GetSectorInventory(gv_CurrentSectorId)
 
 		if not owner then
 			return false, false, false
