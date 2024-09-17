@@ -82,17 +82,16 @@ function REV_GetTotalRounds(ammo_items)
 end
 
 function REV_GetAmmoItems(unit, ammo, use_more)
-
 	if not use_more then
 		return { ammo }, REV_GetTotalRounds({ ammo })
 	end
 
 	if not unit then
-		if not gv_SatelliteView or not gv_CurrentSectorId then
-			return {}
+		if gv_SectorInventory.sector_id then
+			unit = GetSectorInventory(gv_SectorInventory.sector_id)
+		elseif gv_CurrentSectorId then
+			unit = GetSectorInventory(gv_CurrentSectorId)
 		end
-
-		unit = GetSectorInventory(gv_CurrentSectorId)
 
 		if not unit or InventoryIsCombatMode(unit) then
 			return {}
@@ -130,11 +129,11 @@ function REV_MagReload(mag, ammo, suspend_fx, delayed_fx, use_more, orgAp, retur
 	local unit = REV_GetOwner(mag.owner)
 
 	if not unit then
-		if not gv_SatelliteView or not gv_CurrentSectorId then
-			return
+		if gv_SectorInventory.sector_id then
+			unit = GetSectorInventory(gv_SectorInventory.sector_id)
+		elseif gv_CurrentSectorId then
+			unit = GetSectorInventory(gv_CurrentSectorId)
 		end
-
-		unit = GetSectorInventory(gv_CurrentSectorId)
 
 		if not unit or InventoryIsCombatMode(unit) then
 			return
@@ -230,7 +229,8 @@ function REV_MagReload(mag, ammo, suspend_fx, delayed_fx, use_more, orgAp, retur
 			end
 		end
 
-		local sectorInventory = GetSectorInventory(gv_CurrentSectorId)
+		local sectorInventory = gv_SectorInventory.sector_id and GetSectorInventory(gv_SectorInventory.sector_id) or
+		gv_CurrentSectorId and GetSectorInventory(gv_CurrentSectorId)
 		local squadBag = unit and unit.Squad and GetSquadBagInventory(unit.Squad)
 
 		for _, ammosToDestroy in ipairs(ammosToDestroy) do
@@ -268,23 +268,23 @@ end
 -- end
 
 function REV_CountAvailableSectorAmmo(ammo_type)
-	if not gv_SatelliteView or not gv_CurrentSectorId then
+	if not gv_SectorInventory.sector_id and not gv_CurrentSectorId then
 		return 0
 	end
 
-	local sectorStash = GetSectorInventory(gv_CurrentSectorId)
+	local sectorStash = gv_SectorInventory.sector_id and GetSectorInventory(gv_SectorInventory.sector_id) or
+	gv_CurrentSectorId and GetSectorInventory(gv_CurrentSectorId)
 
 	local l_count_available_ammo = 0
 	local slot_name = GetContainerInventorySlotName(sectorStash)
-	
+
 	sectorStash:ForEachItemInSlot(slot_name, ammo_type, function(ammo, slot, left, top, ammo_type)
 		if (not ammo_type or ammo.class == ammo_type) then
 			l_count_available_ammo = l_count_available_ammo + ammo.Amount
 		end
 	end, ammo_type)
-	
-	return l_count_available_ammo
 
+	return l_count_available_ammo
 end
 
 function REV_FindMagReloadTarget(item, ammo)
@@ -328,11 +328,11 @@ end
 
 function REV_GetAvailableAmmosForMags(unit, mag, ammo_type, unique)
 	if not mag.owner then
-		if not gv_SatelliteView or not gv_CurrentSectorId then
-			return {}
+		if gv_SectorInventory.sector_id then
+			unit = GetSectorInventory(gv_SectorInventory.sector_id)
+		elseif gv_CurrentSectorId then
+			unit = GetSectorInventory(gv_CurrentSectorId)
 		end
-
-		unit = GetSectorInventory(gv_CurrentSectorId)
 
 		if not unit or InventoryIsCombatMode(unit) then
 			return {}
